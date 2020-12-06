@@ -1,5 +1,5 @@
 interface AuthModuleState {
-    email: string
+    login: string
     password: string
     token: string
 }

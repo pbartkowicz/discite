@@ -6,13 +6,13 @@ import { AuthModuleState } from '@/store/types'
 
 @Module({ name: 'auth', namespaced: true, stateFactory: true, preserveState: true })
 export default class Auth extends VuexModule implements AuthModuleState {
-    email = ''
+    login = ''
     password = ''
     token = ''
 
     @Mutation
-    setEmail (payload: string): void {
-        this.email = payload
+    setLogin (payload: string): void {
+        this.login = payload
     }
 
     @Mutation
@@ -36,18 +36,22 @@ export default class Auth extends VuexModule implements AuthModuleState {
             const decodedToken = jwtDecode<JwtPayload>(this.token)
             const { exp, iat } = decodedToken
 
-            if (exp !== undefined && iat !== undefined) {
+            if (exp !== undefined) {
                 // 1800 == 30 minutes, 628200 == 7 days
                 const now = Date.now() / 1000
                 const expiresIn30Minutes = exp - now < 1800
-                const reachingLifespan = now - iat < 628200
+
+                // If iat is undefined assume that token is not reaching its lifespan
+                const reachingLifespan = iat !== undefined
+                    ? now - iat < 628200
+                    : false
 
                 if (expiresIn30Minutes && reachingLifespan) {
                     await this.refreshToken()
                 } else if (expiresIn30Minutes) {
-                    // Basically do nothing. Do not refresh
+                    // Basically do nothing. Do not refresh. Token is good.
                 } else {
-                    // TODO: Prompt user to login once again. Token expired
+                    this.removeToken()
                 }
             }
         }
@@ -55,15 +59,20 @@ export default class Auth extends VuexModule implements AuthModuleState {
 
     @Action
     async obtainToken (): Promise<void> {
-        this.updateToken(await AuthService.obtainToken(this.email, this.password))
+        this.updateToken(await AuthService.obtainToken(this.login, this.password))
 
-        this.setEmail('')
+        this.setLogin('')
         this.setPassword('')
     }
 
     @Action
     async refreshToken (): Promise<void> {
         this.updateToken(await AuthService.refreshToken(this.token))
+    }
+
+    @Action
+    async logout (): Promise<void> {
+        this.removeToken()
     }
 
     get isLoggedIn (): boolean {

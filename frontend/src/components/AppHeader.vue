@@ -16,7 +16,21 @@
                 <template #activator="{ attrs, on }">
                     <v-btn v-bind="attrs"
                            v-on="on"
-                           icon>
+                           icon
+                           @click="logout">
+                        <v-icon>mdi-logout</v-icon>
+                    </v-btn>
+                </template>
+
+                Logout
+            </v-tooltip>
+
+            <v-tooltip bottom>
+                <template #activator="{ attrs, on }">
+                    <v-btn v-bind="attrs"
+                           v-on="on"
+                           icon
+                           :to="{ name: 'account' }">
                         <v-icon>mdi-account-circle-outline</v-icon>
                     </v-btn>
                 </template>
@@ -46,6 +60,11 @@
 
         get isLoggedIn (): boolean {
             return this.authModule.isLoggedIn
+        }
+
+        async logout (): Promise<void> {
+            await this.authModule.logout()
+            await this.$router.push({ name: 'auth' })
         }
     }
 </script>

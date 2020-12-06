@@ -7,11 +7,10 @@
                 <v-form>
                     <h3 class="text-center">Sign in</h3>
 
-                    <v-text-field v-model="email"
-                                  label="Email"
-                                  prepend-icon="mdi-email-outline"
-                                  required
-                                  type="email" />
+                    <v-text-field v-model="login"
+                                  label="Login"
+                                  prepend-icon="mdi-account-outline"
+                                  required />
 
                     <v-text-field v-model="password"
                                   label="Password"
@@ -25,6 +24,10 @@
                 <v-form>
                     <h3 class="text-center">Sign up</h3>
 
+                    <v-text-field label="Login"
+                                  prepend-icon="mdi-account-outline"
+                                  required />
+
                     <v-text-field label="Email"
                                   prepend-icon="mdi-email-outline"
                                   required
@@ -32,11 +35,6 @@
 
                     <v-text-field label="Password"
                                   prepend-icon="mdi-lock-outline"
-                                  required
-                                  type="password" />
-
-                    <v-text-field label="Password confirmation"
-                                  prepend-icon="mdi-lock-check-outline"
                                   required
                                   type="password" />
                 </v-form>
@@ -76,12 +74,12 @@
 
         // region Field mappings
 
-        get email (): string {
-            return this.authModule.email
+        get login (): string {
+            return this.authModule.login
         }
 
-        set email (value: string) {
-            this.authModule.setEmail(value)
+        set login (value: string) {
+            this.authModule.setLogin(value)
         }
 
         get password (): string {
@@ -89,13 +87,14 @@
         }
 
         set password (value: string) {
-            this.authModule.setPassword('value')
+            this.authModule.setPassword(value)
         }
 
         // endregion
 
-        signIn (): void {
-            this.authModule.obtainToken()
+        async signIn (): Promise<void> {
+            await this.authModule.obtainToken()
+            await this.$router.push({ name: 'home' })
         }
     }
 </script>
