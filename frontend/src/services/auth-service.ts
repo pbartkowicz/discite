@@ -3,9 +3,9 @@ import axios from 'axios'
 import Api from '@/services/api'
 
 class AuthService {
-    async obtainToken (login: string, password: string): Promise<string> {
+    async obtainToken (email: string, password: string): Promise<string> {
         const response = await axios.post<{ token: string }>(Api.auth.jwt.obtain, {
-            username: login,
+            username: email,
             password: password
         })
 

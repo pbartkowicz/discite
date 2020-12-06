@@ -1,12 +1,24 @@
 import jwtDecode, { JwtPayload } from 'jwt-decode'
-import { Module, VuexModule, Mutation, Action, getModule } from 'vuex-module-decorators'
+import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
 
 import AuthService from '@/services/auth-service'
-import Store from '@/store/index'
+import { AuthModuleState } from '@/store/types'
 
-@Module({ dynamic: true, name: 'auth', namespaced: true, stateFactory: true, preserveState: true, store: Store })
-class Auth extends VuexModule {
-    token: string = ''
+@Module({ name: 'auth', namespaced: true, stateFactory: true, preserveState: true })
+export default class Auth extends VuexModule implements AuthModuleState {
+    email = ''
+    password = ''
+    token = ''
+
+    @Mutation
+    setEmail (payload: string): void {
+        this.email = payload
+    }
+
+    @Mutation
+    setPassword (payload: string): void {
+        this.password = payload
+    }
 
     @Mutation
     updateToken (payload: string): void {
@@ -42,14 +54,19 @@ class Auth extends VuexModule {
     }
 
     @Action
-    async obtainToken (payload: { login: string, password: string }): Promise<void> {
-        this.updateToken(await AuthService.obtainToken(payload.login, payload.password))
+    async obtainToken (): Promise<void> {
+        this.updateToken(await AuthService.obtainToken(this.email, this.password))
+
+        this.setEmail('')
+        this.setPassword('')
     }
 
     @Action
     async refreshToken (): Promise<void> {
         this.updateToken(await AuthService.refreshToken(this.token))
     }
-}
 
-export default getModule(Auth, Store)
+    get isLoggedIn (): boolean {
+        return this.token !== ''
+    }
+}
