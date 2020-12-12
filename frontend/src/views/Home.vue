@@ -75,7 +75,6 @@
         errors: Array<string> = []
         showTest = false
         test: Test = new Test()
-        answers: Array<number> = []
 
         $refs!: {
             provider: InstanceType<typeof ValidationProvider>
@@ -87,10 +86,6 @@
             if (valid) {
                 this.parseFile(file)
             }
-        }
-
-        onFormSubmit (): void {
-            console.log('submit')
         }
 
         parseFile (file: File): void {
@@ -111,7 +106,6 @@
                             })
                         } else {
                             this.test = Test.fromCsvQuestions(results.data)
-                            this.answers = Array.from({ length: this.test.questions.length }).fill(0)
                             this.showTest = true
                         }
                     }
