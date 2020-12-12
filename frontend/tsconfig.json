@@ -25,6 +25,7 @@
     "strict": true,
     "target": "esnext",
     "types": [
+      "papaparse",
       "webpack-env"
     ]
   },

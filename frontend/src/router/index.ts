@@ -26,7 +26,7 @@ const router = new VueRouter({
 
 router.beforeEach(redirectIfNotAuthenticated)
 
-export default router
 export {
+    router as default,
     UserState
 }
