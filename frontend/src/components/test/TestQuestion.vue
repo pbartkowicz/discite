@@ -1,17 +1,21 @@
 <template>
-    <v-card class="mb-4">
+    <v-card class="mb-4"
+            elevation="4"
+            tile>
         <v-card-title class="d-flex justify-space-between">
             {{ question.question }}
-            <v-chip v-if="answers.length"
-                    :class="isCorrect ? 'green' : 'red'">
-                {{ isCorrect ? 'Correct' : 'Wrong' }}
-            </v-chip>
+            <v-fade-transition>
+                <test-question-badge v-if="checked"
+                                     :correct="isCorrect"
+                                     :partially-correct="isPartiallyCorrect" />
+            </v-fade-transition>
         </v-card-title>
         <v-card-text>
             <template v-if="isSingleChoice">
-                <v-radio-group v-model="answers[0]"
+                <v-radio-group v-model="innerAnswers[0]"
                                class="mt-0">
                       <v-radio v-for="(answer, idx) in question.answers"
+                               :disabled="checked"
                                :key="idx"
                                :label="answer"
                                :value="idx + 1" />
@@ -19,37 +23,88 @@
             </template>
             <template v-else>
                <v-checkbox v-for="(answer, idx) in question.answers"
-                           v-model="answers"
+                           v-model="innerAnswers"
                            class="mt-0"
                            hide-details
+                           :disabled="checked"
                            :key="idx"
                            :label="answer"
                            :value="idx + 1" />
             </template>
         </v-card-text>
+        <v-card-actions>
+            <v-col v-if="!checked || !revealed"
+                   :cols="checked ? 6 : 12">
+                <v-fade-transition>
+                    <v-btn v-if="checked && !revealed && question.hasTips"
+                           block
+                           color="orange"
+                           class="darken-2 white--text"
+                           @click="onReveal">
+                        Reveal tips
+                    </v-btn>
+                    <v-btn v-else-if="!checked"
+                           block
+                           color="amber"
+                           :disabled="!innerAnswers.length"
+                           @click="onCheck">
+                        Check
+                    </v-btn>
+                </v-fade-transition>
+            </v-col>
+            <v-col v-if="!!$slots['buttons']"
+                   :cols="revealed ? 12 : 6">
+                <slot name="buttons" />
+            </v-col>
+        </v-card-actions>
     </v-card>
 </template>
 
 <script lang="ts">
-    import { isEqual } from 'lodash'
     import Vue from 'vue'
     import Component from 'vue-class-component'
-    import { Prop } from 'vue-property-decorator'
+    import { Prop, Watch } from 'vue-property-decorator'
 
     import { Question } from '@/models/question'
 
-    @Component
-    export default class TestQuestion extends Vue {
-        @Prop({ type: Object, required: true }) question!: Question
+    import TestQuestionBadge from '@/components/test/TestQuestionBadge.vue'
 
-        answers: Array<number> = []
+    @Component({
+        components: { TestQuestionBadge }
+    })
+    export default class TestQuestion extends Vue {
+        @Prop({ type: Array, required: true }) answers!: Array<number>
+        @Prop({ type: Boolean, required: true }) checked!: boolean
+        @Prop({ type: Object, required: true }) question!: Question
+        @Prop({ type: Boolean, required: true }) revealed!: boolean
+
+        innerAnswers: Array<number> = []
 
         get isCorrect (): boolean {
-            return isEqual(this.question.correctAnswers, this.answers)
+            return this.innerAnswers.every(x => this.question.correctAnswers.includes(x))
         }
 
+        get isPartiallyCorrect (): boolean {
+            return this.innerAnswers.some(x => this.question.correctAnswers.includes(x))
+        }
+
+        // TODO: Flag for that
         get isSingleChoice (): boolean {
             return this.question.correctAnswers.length === 1
+        }
+
+        @Watch('answers')
+        onAnswersChanged (after: Array<number>) {
+            this.innerAnswers = after
+        }
+
+        onCheck (): void {
+            this.$emit('update:checked', true)
+            this.$emit('check',  this.innerAnswers, this.isCorrect, this.isPartiallyCorrect)
+        }
+
+        onReveal (): void {
+            this.$emit('update:revealed', true)
         }
     }
 </script>

@@ -4,6 +4,11 @@ class Question {
     question = ''
     answers: Array<string> = []
     correctAnswers: Array<number> = []
+    tips: string | undefined = undefined
+
+    get hasTips (): boolean {
+        return this.tips !== '' && this.tips !== undefined
+    }
 
     public static fromCsvQuestion(csvQuestion: CsvQuestion) {
         const question = new Question()
@@ -15,7 +20,8 @@ class Question {
             csvQuestion.answer3,
             csvQuestion.answer4
         ]
-        question.correctAnswers = [ csvQuestion.correct ]
+        question.correctAnswers = [...csvQuestion.correct]
+        question.tips = csvQuestion.tips
 
         return question
     }

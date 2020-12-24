@@ -1,16 +1,12 @@
 <template>
     <v-container>
-        <template v-if="showTest">
-            <test-question v-for="(question, idx) in test.questions"
-                           :key="idx"
-                           :question="question" />
-        </template>
+        <test v-if="showTest" />
         <template v-else>
             <v-row>
                 <v-col>
                     <h2 class="text-center text-h4">
                         Load questions from file or
-                        <router-link :to="{ name: 'test-create' }">create new</router-link> test.
+                        <router-link :to="{ name: 'dashboard.test.create' }">create new</router-link> test.
                     </h2>
                 </v-col>
             </v-row>
@@ -21,7 +17,7 @@
                              outlined>
                         Currently supported test formats:
                         <ul>
-                            <li>Simple CSV (question,answer1,answer2,answer3,answer4,correct)</li>
+                            <li>Simple CSV (question,answer1,answer2,answer3,answer4,correct,tips)</li>
                         </ul>
                     </v-alert>
                 </v-col>
@@ -62,19 +58,23 @@
     import Vue from 'vue'
     import { ValidationProvider } from 'vee-validate'
     import Component from 'vue-class-component'
+    import { getModule } from 'vuex-module-decorators'
 
     import { CsvQuestion } from '@/models/file-loaded/csv'
     import { Test } from '@/models/test'
 
-    import TestQuestion from '@/components/test/TestQuestion.vue'
+    import TestComponent from '@/components/test/Test.vue'
+
+    import TestModule from '@/store/modules/test'
 
     @Component({
-        components: { TestQuestion }
+        components: { test: TestComponent }
     })
     export default class Home extends Vue {
+        testModule = getModule(TestModule, this.$store)
+
         errors: Array<string> = []
         showTest = false
-        test: Test = new Test()
 
         $refs!: {
             provider: InstanceType<typeof ValidationProvider>
@@ -90,7 +90,7 @@
 
         parseFile (file: File): void {
             const expectedHeaders: Array<keyof CsvQuestion> = [
-                'question', 'answer1', 'answer2', 'answer3', 'answer4', 'correct'
+                'question', 'answer1', 'answer2', 'answer3', 'answer4', 'correct', 'tips'
             ]
 
             parse<CsvQuestion>(file, {
@@ -105,7 +105,8 @@
                                 return err.message
                             })
                         } else {
-                            this.test = Test.fromCsvQuestions(results.data)
+                            this.testModule.setTest(Test.fromCsvQuestions(results.data))
+
                             this.showTest = true
                         }
                     }
@@ -113,7 +114,15 @@
                 delimiter: ',',
                 dynamicTyping: true,
                 header: true,
-                skipEmptyLines: true
+                skipEmptyLines: true,
+                transform (value: string, field: string | number): unknown {
+                    if (field === 'correct') {
+                        return new Set(value.split(',')
+                            .map(x => parseInt(x, 10)))
+                    }
+
+                    return value
+                }
             })
         }
     }

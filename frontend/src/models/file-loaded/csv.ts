@@ -4,7 +4,8 @@ interface CsvQuestion {
     answer2: string
     answer3: string
     answer4: string
-    correct: 1 | 2 | 3 | 4
+    correct: Set<1 | 2 | 3 | 4>
+    tips: string | undefined
 }
 
 export {
