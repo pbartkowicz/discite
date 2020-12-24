@@ -65,7 +65,7 @@
         }
 
         set checked (value: boolean) {
-            return this.testModule.setChecked(value)
+            this.testModule.setChecked(value)
         }
 
         get revealed (): boolean {
@@ -73,7 +73,7 @@
         }
 
         set revealed (value: boolean) {
-            return this.testModule.setRevealed(value)
+            this.testModule.setRevealed(value)
         }
 
         // endregion
@@ -81,7 +81,6 @@
         onQuestionCheck (answers: Array<number>, correct: boolean, partiallyCorrect: boolean): void {
             this.answers = answers
             this.testModule.updateTestsResults({
-                question: this.currentQuestion,
                 answers,
                 correct,
                 partiallyCorrect
@@ -89,7 +88,7 @@
         }
 
         onNextQuestion (): void {
-            if (!this.lastQuestion) {
+            if (!this.testModule.isLastQuestion) {
                 this.answers = []
                 this.testModule.nextQuestion()
             }

@@ -1,5 +1,4 @@
 type TestResultsUpdatePayload = {
-    question: number
     answers: Array<number>
     correct: boolean
     partiallyCorrect: boolean
@@ -12,7 +11,7 @@ class TestResults {
 
     results: Array<Array<number>> = []
 
-    public update ({ question, answers, correct, partiallyCorrect }: TestResultsUpdatePayload): void {
+    public update (question: number, { answers, correct, partiallyCorrect }: TestResultsUpdatePayload): void {
         this.results[question] = answers
 
         if (correct) {

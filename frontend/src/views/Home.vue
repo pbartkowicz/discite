@@ -1,53 +1,50 @@
 <template>
     <v-container>
-        <test v-if="showTest" />
-        <template v-else>
-            <v-row>
-                <v-col>
-                    <h2 class="text-center text-h4">
-                        Load questions from file or
-                        <router-link :to="{ name: 'dashboard.test.create' }">create new</router-link> test.
-                    </h2>
-                </v-col>
-            </v-row>
+        <v-row>
+            <v-col>
+                <h2 class="text-center text-h4">
+                    Load questions from file or
+                    <router-link :to="{ name: 'dashboard.test.create' }">create new</router-link> test.
+                </h2>
+            </v-col>
+        </v-row>
 
-            <v-row>
-                <v-col>
-                    <v-alert type="info"
-                             outlined>
-                        Currently supported test formats:
-                        <ul>
-                            <li>Simple CSV (question,answer1,answer2,answer3,answer4,correct,tips)</li>
-                        </ul>
-                    </v-alert>
-                </v-col>
-            </v-row>
+        <v-row>
+            <v-col>
+                <v-alert type="info"
+                         outlined>
+                    Currently supported test formats:
+                    <ul>
+                        <li>Simple CSV (question,answer1,answer2,answer3,answer4,correct,tips)</li>
+                    </ul>
+                </v-alert>
+            </v-col>
+        </v-row>
 
-            <validation-provider v-slot="{ errors }"
-                                 name="File"
-                                 ref="provider"
-                                 rules="required">
-                <v-file-input label="Test file"
-                              outlined
-                              placeholder="File with your test content"
-                              show-size
-                              :error-messages="errors"
-                              @change="onFileSelected" />
-            </validation-provider>
+        <validation-provider v-slot="{ errors }"
+                             name="File"
+                             ref="provider"
+                             rules="required">
+            <v-file-input label="Test file"
+                          outlined
+                          placeholder="File with your test content"
+                          show-size
+                          :error-messages="errors"
+                          @change="onFileSelected" />
+        </validation-provider>
 
-            <template v-if="errors.length">
-                <v-card>
-                    <v-alert class="mb-0"
-                             type="error">
-                        There were some errors with your file.
-                    </v-alert>
-                    <v-card-text>
-                        <ul>
-                            <li v-for="error in errors">{{ error }}</li>
-                        </ul>
-                    </v-card-text>
-                </v-card>
-            </template>
+        <template v-if="errors.length">
+            <v-card>
+                <v-alert class="mb-0"
+                         type="error">
+                    There were some errors with your file.
+                </v-alert>
+                <v-card-text>
+                    <ul>
+                        <li v-for="error in errors">{{ error }}</li>
+                    </ul>
+                </v-card-text>
+            </v-card>
         </template>
     </v-container>
 </template>
@@ -63,18 +60,13 @@
     import { CsvQuestion } from '@/models/file-loaded/csv'
     import { Test } from '@/models/test'
 
-    import TestComponent from '@/components/test/Test.vue'
-
     import TestModule from '@/store/modules/test'
 
-    @Component({
-        components: { test: TestComponent }
-    })
+    @Component
     export default class Home extends Vue {
         testModule = getModule(TestModule, this.$store)
 
         errors: Array<string> = []
-        showTest = false
 
         $refs!: {
             provider: InstanceType<typeof ValidationProvider>
@@ -106,8 +98,9 @@
                             })
                         } else {
                             this.testModule.setTest(Test.fromCsvQuestions(results.data))
-
-                            this.showTest = true
+                            this.$router.push({
+                                name: 'test.solve'
+                            })
                         }
                     }
                 },

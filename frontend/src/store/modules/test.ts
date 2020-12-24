@@ -45,7 +45,7 @@ export default class Test extends VuexModule implements TestModuleState {
 
     @Mutation
     updateTestsResults (payload: TestResultsUpdatePayload): void {
-        this.testResults.update(payload)
+        this.testResults.update(this.currentQuestionIdx, payload)
     }
 
     // endregion
