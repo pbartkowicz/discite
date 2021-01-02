@@ -10,6 +10,10 @@ class Question {
         return this.tips !== '' && this.tips !== undefined
     }
 
+    get isSingleChoice (): boolean {
+        return this.correctAnswers.length === 1
+    }
+
     public static fromCsvQuestion(csvQuestion: CsvQuestion) {
         const question = new Question()
 
