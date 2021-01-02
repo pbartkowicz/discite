@@ -19,7 +19,8 @@ const routes: Array<RouteConfig> = [
     { path: '/account', name: 'account', component: () => import('@/views/Account.vue'), meta: { state: UserState.LoggedIn } },
 
     // Test
-    { path: '/test/solve', name: 'test.solve', component: () => import('@/views/test/SolveTest.vue') }
+    { path: '/test/solve', name: 'test.solve', component: () => import('@/views/test/SolveTest.vue') },
+    { path: '/test/results', name: 'test.results', component: () => import('@/views/test/TestResults.vue') }
 ]
 
 const router = new VueRouter({
