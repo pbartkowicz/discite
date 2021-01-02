@@ -11,7 +11,7 @@
             </v-fade-transition>
         </v-card-title>
         <v-card-text>
-            <template v-if="isSingleChoice">
+            <template v-if="question.isSingleChoice">
                 <v-radio-group v-model="innerAnswers[0]"
                                class="mt-0">
                       <v-radio v-for="(answer, idx) in question.answers"
@@ -33,27 +33,25 @@
             </template>
         </v-card-text>
         <v-card-actions>
-            <v-col v-if="!checked || !revealed"
-                   :cols="checked ? 6 : 12">
-                <v-fade-transition>
-                    <v-btn v-if="checked && !revealed && question.hasTips"
-                           block
-                           color="orange"
-                           class="darken-2 white--text"
-                           @click="onReveal">
-                        Reveal tips
-                    </v-btn>
-                    <v-btn v-else-if="!checked"
-                           block
-                           color="amber"
-                           :disabled="!innerAnswers.length"
-                           @click="onCheck">
-                        Check
-                    </v-btn>
-                </v-fade-transition>
+            <v-col v-if="!checked || (question.hasTips && !revealed)"
+                   :cols="buttonsColumnCount">
+                <v-btn v-if="checked && !revealed && question.hasTips"
+                       block
+                       color="orange"
+                       class="darken-2 white--text"
+                       @click="onReveal">
+                    Reveal tips
+                </v-btn>
+                <v-btn v-else-if="!checked"
+                       block
+                       color="amber"
+                       :disabled="!innerAnswers.length"
+                       @click="onCheck">
+                    Check
+                </v-btn>
             </v-col>
             <v-col v-if="!!$slots['buttons']"
-                   :cols="revealed ? 12 : 6">
+                   :cols="buttonsSlotColumnCount">
                 <slot name="buttons" />
             </v-col>
         </v-card-actions>
@@ -88,9 +86,12 @@
             return this.innerAnswers.some(x => this.question.correctAnswers.includes(x))
         }
 
-        // TODO: Flag for that
-        get isSingleChoice (): boolean {
-            return this.question.correctAnswers.length === 1
+        get buttonsColumnCount (): number {
+            return this.checked ? 6 : 12
+        }
+
+        get buttonsSlotColumnCount (): number {
+            return (!this.question.hasTips || this.revealed) ? 12 : 6
         }
 
         @Watch('answers')

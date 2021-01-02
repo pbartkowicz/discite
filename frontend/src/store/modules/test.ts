@@ -18,8 +18,18 @@ export default class Test extends VuexModule implements TestModuleState {
     // region Mutations
 
     @Mutation
+    decrementCurrentQuestion (): void {
+        this.currentQuestionIdx--
+    }
+
+    @Mutation
     incrementCurrentQuestion (): void {
         this.currentQuestionIdx++
+    }
+
+    @Mutation
+    goToFirstQuestion (): void {
+        this.currentQuestionIdx = 0
     }
 
     @Mutation
@@ -67,6 +77,14 @@ export default class Test extends VuexModule implements TestModuleState {
 
     get currentQuestion (): Question {
         return this.test.questions[this.currentQuestionIdx]
+    }
+
+    get currentQuestionAnswers (): Array<number> {
+        return this.testResults.results[this.currentQuestionIdx]
+    }
+
+    get isFirstQuestion (): boolean {
+        return this.currentQuestionIdx === 0
     }
 
     get isLastQuestion (): boolean {
