@@ -41,7 +41,8 @@
                 </v-alert>
                 <v-card-text>
                     <ul>
-                        <li v-for="error in errors">{{ error }}</li>
+                        <li v-for="error in errors"
+                            v-html="error" />
                     </ul>
                 </v-card-text>
             </v-card>
@@ -89,12 +90,14 @@
                 complete: (results: ParseResult<CsvQuestion>) => {
                     if (!isEqual(results.meta.fields, expectedHeaders)) {
                         this.errors = [
-                            'Your file is missing headers or headers are invalid.'
+                            'Your file is missing headers or headers are invalid.',
+                            `<strong>Expected headers:</strong> ${expectedHeaders.join(',')}`,
+                            `<strong>Actual headers:</strong> ${results.meta.fields?.join(',')}`
                         ]
                     } else {
                         if (results.errors.length > 0) {
                             this.errors = results.errors.map(err => {
-                                return err.message
+                                return `<strong>Row ${err.row}</strong> - ${err.message}`
                             })
                         } else {
                             this.testModule.setTest(Test.fromCsvQuestions(results.data))
