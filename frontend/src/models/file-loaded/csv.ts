@@ -5,7 +5,7 @@ interface CsvQuestion {
     answer3: string
     answer4: string
     correct: Set<1 | 2 | 3 | 4>
-    tips: string | undefined
+    tips: string | null
 }
 
 export {

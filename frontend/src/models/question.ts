@@ -4,7 +4,7 @@ class Question {
     question = ''
     answers: Array<string> = []
     correctAnswers: Array<number> = []
-    tips: string | undefined = undefined
+    tips?: string = undefined
 
     get hasTips (): boolean {
         return this.tips !== '' && this.tips !== undefined
@@ -25,7 +25,7 @@ class Question {
             csvQuestion.answer4
         ]
         question.correctAnswers = [...csvQuestion.correct]
-        question.tips = csvQuestion.tips
+        question.tips = csvQuestion.tips ?? undefined
 
         return question
     }
