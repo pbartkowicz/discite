@@ -4,7 +4,7 @@
             <v-col md="6"
                    lg="4"
                    offset-lg="2">
-                <v-form>
+                <v-form @submit="signIn">
                     <h3 class="text-center">Sign in</h3>
 
                     <v-text-field v-model="login"
@@ -16,11 +16,13 @@
                                   label="Password"
                                   prepend-icon="mdi-lock-outline"
                                   required
-                                  type="password" />
+                                  type="password"
+                                  @keydown.enter="signIn" />
                 </v-form>
             </v-col>
             <v-col md="6"
                    lg="4">
+                <!-- TODO: Wire this up -->
                 <v-form>
                     <h3 class="text-center">Sign up</h3>
 

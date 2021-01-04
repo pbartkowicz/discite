@@ -1,3 +1,4 @@
+import localforage from 'localforage'
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
@@ -11,12 +12,13 @@ import { StoreState } from '@/store/types'
 Vue.use(Vuex)
 
 const vuexLocal = new VuexPersistence<StoreState>({
+    asyncStorage: true,
     reducer: (state: StoreState) => ({
         auth: {
             token: state.auth.token
         }
     }),
-    storage: window.localStorage
+    storage: localforage
 })
 
 export default new Vuex.Store<StoreState>({
