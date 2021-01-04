@@ -8,6 +8,7 @@ import router from '@/router'
 import store from '@/store'
 import vuetify from '@/plugins/vuetify'
 import Env from '@/env'
+import '@/./error-handler'
 
 // Remove Vue production tip
 Vue.config.productionTip = false

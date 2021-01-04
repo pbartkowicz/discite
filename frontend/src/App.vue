@@ -10,6 +10,10 @@
         </v-main>
 
         <app-footer />
+
+        <v-snackbar v-model="errorsModule.hasError">
+            <span v-html="errorsModule.error" />
+        </v-snackbar>
     </v-app>
 </template>
 
@@ -23,11 +27,14 @@
     import AppStatusBar from '@/components/AppStatusBar.vue'
 
     import AuthModule from '@/store/modules/auth'
+    import ErrorsModule from '@/store/modules/errors'
 
     @Component({
         components: { AppFooter, AppHeader, AppStatusBar }
     })
     export default class App extends Vue {
+        errorsModule = getModule(ErrorsModule, this.$store)
+
         async mounted (): Promise<void> {
             await getModule(AuthModule, this.$store).checkToken()
         }

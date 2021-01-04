@@ -7,6 +7,10 @@ interface AuthModuleState {
     token: string
 }
 
+interface ErrorsModuleState {
+    error: string
+}
+
 interface TestModuleState {
     currentQuestionIdx: number
     checked: boolean
@@ -22,6 +26,7 @@ interface StoreState {
 
 export {
     AuthModuleState,
+    ErrorsModuleState,
     TestModuleState,
 
     StoreState
