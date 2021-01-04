@@ -2,8 +2,8 @@ import { NavigationGuardNext, Route } from 'vue-router'
 import { getModule } from 'vuex-module-decorators'
 
 import AuthModule from '@/store/modules/auth'
+import { UserState } from '@/router/user-state'
 import Store from '@/store'
-import { UserState } from '@/router'
 
 const redirectIfNotAuthenticated = (to: Route, from: Route, next: NavigationGuardNext) => {
     const currentState = getModule(AuthModule, Store).isLoggedIn ? UserState.LoggedIn : UserState.Guest

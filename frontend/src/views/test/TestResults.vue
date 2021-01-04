@@ -48,10 +48,10 @@
     import TestStats from '@/components/test/TestStats.vue'
 
     import TestModule from '@/store/modules/test'
-    import TestQuestionTips from "@/components/test/TestQuestionTips.vue";
+    import TestQuestionTips from '@/components/test/TestQuestionTips.vue'
 
     @Component({
-        components: {TestQuestionTips, TestQuestionResult, TestStats }
+        components: { TestQuestionTips, TestQuestionResult, TestStats }
     })
     export default class TestResults extends Vue {
         testsModule = getModule(TestModule, this.$store)

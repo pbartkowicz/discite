@@ -4,7 +4,7 @@
             <v-col>
                 <h2 class="text-center text-h4">
                     Load questions from file or
-                    <router-link :to="{ name: 'dashboard.test.create' }">create new</router-link> test.
+                    <router-link :to="{ name: 'test.create' }">create new</router-link> test.
                 </h2>
             </v-col>
         </v-row>
