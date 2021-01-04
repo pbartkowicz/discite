@@ -1,10 +1,12 @@
-import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
+import { Module, VuexModule, Mutation, Action, config } from 'vuex-module-decorators'
 
 import { Test as TestModel } from '@/models/test'
 import { TestResults, TestResultsUpdatePayload } from '@/models/test-results'
 
 import { TestModuleState } from '@/store/types'
-import {Question} from "@/models/question";
+import { Question } from '@/models/question'
+
+config.rawError = true
 
 @Module({ name: 'test', namespaced: true, stateFactory: true })
 export default class Test extends VuexModule implements TestModuleState {

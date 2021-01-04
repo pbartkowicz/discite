@@ -1,8 +1,10 @@
 import jwtDecode, { JwtPayload } from 'jwt-decode'
-import { Module, VuexModule, Mutation, Action } from 'vuex-module-decorators'
+import { Module, VuexModule, Mutation, Action, config } from 'vuex-module-decorators'
 
 import AuthService from '@/services/auth-service'
 import { AuthModuleState } from '@/store/types'
+
+config.rawError = true
 
 @Module({ name: 'auth', namespaced: true, stateFactory: true, preserveState: true })
 export default class Auth extends VuexModule implements AuthModuleState {
