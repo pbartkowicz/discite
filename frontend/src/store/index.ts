@@ -10,7 +10,11 @@ import { StoreState } from '@/store/types'
 Vue.use(Vuex)
 
 const vuexLocal = new VuexPersistence<StoreState>({
-    modules: [ 'auth' ],
+    reducer: (state: StoreState) => ({
+        auth: {
+            token: state.auth.token
+        }
+    }),
     storage: window.localStorage
 })
 
