@@ -2,6 +2,8 @@ import { CsvQuestion } from '@/models/file-loaded/csv'
 import { Question } from '@/models/question'
 
 class Test {
+    name: string = ''
+    description: string = ''
     questions: Array<Question> = []
 
     public static fromCsvQuestions(csvQuestions: Array<CsvQuestion>) {
