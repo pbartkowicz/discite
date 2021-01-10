@@ -44,11 +44,11 @@
     import Component from 'vue-class-component'
     import { getModule } from 'vuex-module-decorators'
 
-    import TestQuestionResult from '@/components/test/TestQuestionResult.vue'
-    import TestStats from '@/components/test/TestStats.vue'
+    import TestQuestionResult from '@/views/test/components/TestQuestionResult.vue'
+    import TestStats from '@/views/test/components/TestStats.vue'
 
     import TestModule from '@/store/modules/test'
-    import TestQuestionTips from '@/components/test/TestQuestionTips.vue'
+    import TestQuestionTips from '@/views/test/components/TestQuestionTips.vue'
 
     @Component({
         components: { TestQuestionTips, TestQuestionResult, TestStats }

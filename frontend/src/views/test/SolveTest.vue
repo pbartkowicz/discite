@@ -16,8 +16,8 @@
     import Vue from 'vue'
     import Component from 'vue-class-component'
 
-    import Test from '@/components/test/Test.vue'
-    import TestStats from '@/components/test/TestStats.vue'
+    import Test from '@/views/test/components/Test.vue'
+    import TestStats from '@/views/test/components/TestStats.vue'
 
     @Component({
         components: { Test, TestStats }

@@ -36,8 +36,8 @@
     import Component from 'vue-class-component'
     import { getModule } from 'vuex-module-decorators'
 
-    import TestQuestion from '@/components/test/TestQuestion.vue'
-    import TestQuestionTips from '@/components/test/TestQuestionTips.vue'
+    import TestQuestion from '@/views/test/components/TestQuestion.vue'
+    import TestQuestionTips from '@/views/test/components/TestQuestionTips.vue'
 
     import TestModule from '@/store/modules/test'
 

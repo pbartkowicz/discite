@@ -44,7 +44,7 @@
 
     import { Question } from '@/models/question'
 
-    import TestQuestionBadge from '@/components/test/TestQuestionBadge.vue'
+    import TestQuestionBadge from '@/views/test/components/TestQuestionBadge.vue'
 
     @Component({
         components: { TestQuestionBadge }

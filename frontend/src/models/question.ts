@@ -5,12 +5,14 @@ class Question {
     answers: Array<string> = []
     correctAnswers: Array<number> = []
     tips?: string = undefined
+    isMultipleChoice: boolean = false
 
     get hasTips (): boolean {
         return this.tips !== '' && this.tips !== undefined
     }
 
     get isSingleChoice (): boolean {
+        // TODO: Remove this
         return this.correctAnswers.length === 1
     }
 
