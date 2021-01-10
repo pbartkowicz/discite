@@ -11,6 +11,19 @@
         <v-divider class="mx-2 my-auto"
                    vertical />
 
+        <v-tooltip bottom>
+            <template #activator="{ attrs, on }">
+                <v-btn v-bind="attrs"
+                       v-on="on"
+                       icon
+                       @click="changeTheme">
+                    <v-icon>mdi-theme-light-dark</v-icon>
+                </v-btn>
+            </template>
+
+            Toggle dark mode
+        </v-tooltip>
+
         <template v-if="isLoggedIn">
             <v-tooltip bottom>
                 <template #activator="{ attrs, on }">
@@ -60,6 +73,10 @@
 
         get isLoggedIn (): boolean {
             return this.authModule.isLoggedIn
+        }
+
+        changeTheme (): void {
+            this.$vuetify.theme.dark = !this.$vuetify.theme.dark
         }
 
         async logout (): Promise<void> {
