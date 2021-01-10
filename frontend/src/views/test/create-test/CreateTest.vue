@@ -2,7 +2,7 @@
     <v-container>
         <h4 class="text-center">Create a new test</h4>
 
-        <validation-observer>
+        <validation-observer v-slot="{ handleSubmit, valid }">
             <v-form>
                 <v-row>
                     <v-col cols="12"
@@ -28,6 +28,15 @@
                                                 prepend-icon="mdi-text-subject"
                                                 :error-messages="errors" />
                                 </validation-provider>
+
+                                <v-btn block
+                                       class="mt-2"
+                                       color="primary darken-2"
+                                       :disabled="!valid"
+                                       @click="handleSubmit(onSaveClicked)">
+                                    Save
+                                    <v-icon right>mdi-send</v-icon>
+                                </v-btn>
                             </v-card-text>
                         </v-card>
                     </v-col>
@@ -41,29 +50,56 @@
 
                             <v-card-text>
                                 <v-expansion-panels accordion
+                                                    focusable
                                                     class="mb-8">
                                     <v-expansion-panel v-for="(question, i) in test.questions"
                                                        :key="i">
                                         <v-expansion-panel-header>
-                                            {{ test.questions[i].question }}
+                                            <template #default="{ open }">
+                                                <v-row no-gutters>
+                                                    <v-col cols="4">
+                                                        {{ question.question }}
+                                                    </v-col>
+
+                                                    <v-col class="text--secondary"
+                                                           cols="8">
+                                                        <v-fade-transition>
+                                                            <v-row v-if="!open"
+                                                                   no-gutters>
+                                                                <v-col cols="6">
+                                                                    {{ question.answers.length }} answers
+                                                                </v-col>
+                                                                <v-col cols="6">
+                                                                    {{ question.isMultipleChoice
+                                                                        ? 'Multiple choice'
+                                                                        : 'Single choice' }}
+                                                                </v-col>
+                                                            </v-row>
+                                                        </v-fade-transition>
+                                                    </v-col>
+                                                </v-row>
+                                            </template>
                                         </v-expansion-panel-header>
 
                                         <v-expansion-panel-content>
-                                            <v-row dense
-                                                   no-gutters>
-                                                <v-col cols="12">
-                                                    <v-text-field v-model="test.questions[i].question"
-                                                                  label="Question" />
-                                                </v-col>
-                                            </v-row>
+                                            <validation-provider v-slot="{ errors }"
+                                                                 name="Question"
+                                                                 rules="required|max:191">
+                                                <v-text-field v-model="test.questions[i].question"
+                                                              class="mt-4"
+                                                              label="Question"
+                                                              prepend-icon="mdi-help"
+                                                              :error-messages="errors" />
+                                            </validation-provider>
 
-                                            <v-row dense
-                                                   no-gutters>
+                                            <v-row>
                                                 <v-col cols="8">
                                                     <v-text-field label="Number of answers"
-                                                                  max="8"
                                                                   min="2"
                                                                   type="number"
+                                                                  :max="maxAnswers"
+                                                                  :prepend-icon="numberIcon(question)"
+                                                                  :value="question.answers.length"
                                                                   @input="onNumberOfAnswersChanged(question, $event)" />
                                                 </v-col>
 
@@ -80,22 +116,28 @@
                                                 Answers
                                             </h5>
 
+                                            <!-- TODO: Handle this mess of a validation -->
                                             <v-radio-group v-model="question.correctAnswers[0]">
-                                                <v-text-field v-for="(answer, j) in question.answers"
-                                                              v-model="question.answers[j]"
-                                                              dense
-                                                              :key="j">
-                                                    <template #prepend>
-                                                        <v-checkbox v-if="question.isMultipleChoice"
-                                                                    v-model="question.correctAnswers"
-                                                                    class="pt-0 mt-0"
-                                                                    dense
-                                                                    :value="j + 1" />
-                                                        <v-radio v-else
-                                                                 class="pt-0 mt-0"
-                                                                 dense />
-                                                    </template>
-                                                </v-text-field>
+                                                <validation-provider v-for="(answer, j) in question.answers"
+                                                                     v-slot="{ errors }"
+                                                                     name="Answer"
+                                                                     rules="required|max:191"
+                                                                     :key="j">
+                                                    <v-text-field v-model="question.answers[j]"
+                                                                  dense
+                                                                  :error-messages="errors">
+                                                        <template #prepend>
+                                                            <v-checkbox v-if="question.isMultipleChoice"
+                                                                        v-model="question.correctAnswers"
+                                                                        class="pt-0 mt-0"
+                                                                        dense
+                                                                        :value="j + 1" />
+                                                            <v-radio v-else
+                                                                     class="pt-0 mt-0"
+                                                                     dense />
+                                                        </template>
+                                                    </v-text-field>
+                                                </validation-provider>
                                             </v-radio-group>
                                         </v-expansion-panel-content>
                                     </v-expansion-panel>
@@ -119,6 +161,7 @@
 </template>
 
 <script lang="ts">
+    import { ValidationObserver } from 'vee-validate'
     import Vue from 'vue'
     import Component from 'vue-class-component'
     import { getModule } from 'vuex-module-decorators'
@@ -132,16 +175,26 @@
     export default class CreateTest extends Vue {
         name = ''
         description = ''
-
         test: Test = new Test()
+
+        maxAnswers = 8
 
         get hasQuestions (): boolean {
             return this.test.questions.length > 0
         }
 
+        numberIcon (question: Question): string {
+            if (question.answers.length > 9) {
+                return 'mdi-numeric-9-plus-box-outline'
+            } else {
+                return `mdi-numeric-${question.answers.length}-box-outline`
+            }
+        }
+
         onAddQuestionClick (): void {
             const question = new Question()
             question.question = `Question ${this.test.questions.length + 1}`
+            question.answers = ['', '', '']
 
             this.test.questions.push(question)
         }
@@ -151,7 +204,13 @@
         }
 
         onNumberOfAnswersChanged (question: Question, answers: number): void {
-            question.answers = ArrayUtils.resize(question.answers, answers, '')
+            const newCount = Math.min(answers, this.maxAnswers)
+
+            question.answers = ArrayUtils.resize(question.answers, newCount, '')
+        }
+
+        onSaveClicked (): void {
+
         }
     }
 </script>
