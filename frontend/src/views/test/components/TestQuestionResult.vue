@@ -10,7 +10,7 @@
             </v-fade-transition>
         </v-card-title>
         <v-card-text>
-            <template v-if="question.isSingleChoice">
+            <template v-if="!question.isMultipleChoice">
                 <v-radio-group v-model="answers[0]"
                                class="mt-0">
                       <v-radio v-for="(answer, idx) in question.answers"

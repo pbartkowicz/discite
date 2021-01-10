@@ -11,11 +11,6 @@ class Question {
         return this.tips !== '' && this.tips !== undefined
     }
 
-    get isSingleChoice (): boolean {
-        // TODO: Remove this
-        return this.correctAnswers.length === 1
-    }
-
     public static fromCsvQuestion(csvQuestion: CsvQuestion) {
         const question = new Question()
 
@@ -27,6 +22,7 @@ class Question {
             csvQuestion.answer4
         ]
         question.correctAnswers = [...csvQuestion.correct]
+        question.isMultipleChoice = question.correctAnswers.length > 1
         question.tips = csvQuestion.tips ?? undefined
 
         return question

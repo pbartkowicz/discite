@@ -42,7 +42,8 @@
                             <v-card-text>
                                 <v-expansion-panels accordion
                                                     class="mb-8">
-                                    <v-expansion-panel v-for="(question, i) in test.questions">
+                                    <v-expansion-panel v-for="(question, i) in test.questions"
+                                                       :key="i">
                                         <v-expansion-panel-header>
                                             {{ test.questions[i].question }}
                                         </v-expansion-panel-header>
