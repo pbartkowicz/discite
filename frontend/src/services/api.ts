@@ -17,5 +17,9 @@ export default {
         delete (id: number): string {
             return ''
         }
+    },
+    user: {
+        password: ''
+        profile: ''
     }
 }
