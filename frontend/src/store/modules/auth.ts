@@ -1,3 +1,4 @@
+import axios from 'axios'
 import jwtDecode, { JwtPayload } from 'jwt-decode'
 import { Module, VuexModule, Mutation, Action, config } from 'vuex-module-decorators'
 
@@ -25,11 +26,15 @@ export default class Auth extends VuexModule implements AuthModuleState {
     @Mutation
     updateToken (payload: string): void {
         this.token = payload
+
+        axios.defaults.headers.common.Authorization = `JWT ${this.token}`
     }
 
     @Mutation
     removeToken (): void {
         this.token = ''
+
+        axios.defaults.headers.common.Authorization = ''
     }
 
     @Action
