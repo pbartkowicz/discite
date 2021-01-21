@@ -19,7 +19,7 @@ export default {
         }
     },
     user: {
-        password: ''
+        password: '',
         profile: ''
     }
 }
