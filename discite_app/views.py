@@ -10,14 +10,23 @@ jwt = JWTAuthentication()
 
 
 def show_test(request, test_id):
-    return JsonResponse(show_test_service.show_test(test_id))
+    try:
+        auth_tuple = jwt.authenticate(request)
+        current_user = auth_tuple[0]
+    except:
+        current_user = None
+    return JsonResponse(show_test_service.show_test(test_id, current_user))
 
 
 @csrf_exempt
 def create_test(request):
-    auth_tuple = jwt.authenticate(request)
+    try:
+        auth_tuple = jwt.authenticate(request)
+        current_user = auth_tuple[0]
+    except:
+        return HttpResponse('Unathorized', status=401)
+
     if request.method == 'POST':
         data = json.loads(request.body.decode('utf-8'))
-        current_user = auth_tuple[0]
         create_test_service.create_test(data, current_user)
         return HttpResponse('')

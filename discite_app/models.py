@@ -47,6 +47,10 @@ class TestResult(models.Model):
     test = models.ForeignKey(Test, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+    correct = models.IntegerField()
+    partially_correct = models.IntegerField()
+    wrong = models.IntegerField()
+
     created_at = models.DateTimeField(auto_now_add=True)
 
 

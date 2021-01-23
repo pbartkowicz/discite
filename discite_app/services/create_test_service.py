@@ -27,12 +27,12 @@ def create_test(data, current_user):
 
 def validate_test(data):
     if len(data['name']) > 100: return False
-    if len(data['description'] > 250): return False
+    if len(data['description']) > 250: return False
     questions = data['questions']
     if len(questions) < 1: return False
     for question in questions:
-        if question['tips'] > 250: return False
-        if question['question'] > 250: return False
+        if len(question['tips']) > 250: return False
+        if len(question['question']) > 250: return False
 
         answers = question['answers']
         correct_answers = question['correctAnswers']
