@@ -4,6 +4,13 @@ type TestResultsUpdatePayload = {
     partiallyCorrect: boolean
 }
 
+interface TestsResultsInterface {
+    correct: number
+    partiallyCorrect: number
+    wrong: number
+    results: Record<number, Array<number>>
+}
+
 class TestResults {
     correct = 0
     partiallyCorrect = 0
@@ -21,6 +28,17 @@ class TestResults {
         } else {
             this.wrong++
         }
+    }
+
+    public static fromInterface(testResultsInterface: TestsResultsInterface): TestResults {
+        const results = new TestResults()
+
+        results.correct = testResultsInterface.correct
+        results.partiallyCorrect = testResultsInterface.partiallyCorrect
+        results.wrong = testResultsInterface.wrong
+        results.results = testResultsInterface.results
+
+        return results
     }
 }
 
