@@ -23,8 +23,21 @@ class TestService {
         await axios.delete(Api.test.delete(id))
     }
 
-    private modelToRequest (test: Test): Partial<Test> {
-        return test
+    private modelToRequest (test: Test): Record<string, unknown> {
+        return {
+            name: test.name,
+            description: test.description,
+            questions: test.questions.map(q => {
+                return {
+                    question: q.question,
+                    tips: q.tips,
+                    answers: q.answers.map(answer => {
+                        return answer.value
+                    }),
+                    correctAnswers: q.correctAnswers
+                }
+            })
+        }
     }
 }
 

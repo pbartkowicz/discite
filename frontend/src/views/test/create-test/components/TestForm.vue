@@ -11,7 +11,7 @@
                             <validation-provider v-slot="{ errors }"
                                                  name="Name"
                                                  rules="required|max:191">
-                                <v-text-field v-model="name"
+                                <v-text-field v-model="test.name"
                                               label="Name"
                                               prepend-icon="mdi-format-title"
                                               :error-messages="errors" />
@@ -20,7 +20,7 @@
                             <validation-provider v-slot="{ errors }"
                                                  name="Description"
                                                  rules="required">
-                                <v-textarea v-model="description"
+                                <v-textarea v-model="test.description"
                                             label="Description"
                                             prepend-icon="mdi-text-subject"
                                             :error-messages="errors" />
@@ -167,10 +167,10 @@
     import { Question } from '@/models/question'
     import { Test } from '@/models/test'
 
+    import TestService from '@/services/test-service'
+
     @Component
     export default class CreateTest extends Vue {
-        name = ''
-        description = ''
         test: Test = new Test()
 
         maxAnswers = 8
@@ -210,7 +210,7 @@
         }
 
         onSaveClicked (): void {
-
+            TestService.create(this.test)
         }
     }
 </script>

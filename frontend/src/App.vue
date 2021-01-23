@@ -20,6 +20,7 @@
 </template>
 
 <script lang="ts">
+    import axios from 'axios'
     import Vue from 'vue'
     import Component from 'vue-class-component'
     import { getModule } from 'vuex-module-decorators'
@@ -39,6 +40,11 @@
 
         async mounted (): Promise<void> {
             await getModule(AuthModule, this.$store).checkToken()
+
+            // Fix for not adding authorization header on reload
+            await (this.$store as any).restored
+            const authModule = getModule(AuthModule, this.$store)
+            axios.defaults.headers.common.Authorization = `Bearer ${authModule.accessToken}`
         }
     }
 </script>

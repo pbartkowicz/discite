@@ -30,6 +30,6 @@ urlpatterns = [
     path('api/token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
 
     # Test API
-    path('test/<str:test_id>', views.show_test, name='show test data'),
-    path('test', views.create_test, name='create test')
+    path('api/test/<str:test_id>', views.show_test, name='show test data'),
+    path('api/test', views.create_test, name='create test')
 ]

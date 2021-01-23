@@ -18,7 +18,7 @@ def create_test(data, current_user):
             json_answers = json_question['answers']
             json_correct_answers = json_question['correctAnswers']
             for i in range(len(json_answers)):
-                is_answer_correct = i in json_correct_answers
+                is_answer_correct = (i + 1) in json_correct_answers
                 answer = Answer(question=question, value=json_answers[i], is_certain=True, is_correct=is_answer_correct)
                 answer.save()
     else:
