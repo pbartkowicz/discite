@@ -16,6 +16,9 @@ export default {
         },
         delete (id: number): string {
             return `api/test/${id}`
+        },
+        submitResults (id: number): string {
+            return `api/test/${id}/submit`
         }
     },
     user: {

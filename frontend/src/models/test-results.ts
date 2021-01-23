@@ -18,6 +18,10 @@ class TestResults {
 
     results: Record<number, Array<number>> = {}
 
+    get allAnswers (): Array<number> {
+        return Object.values(this.results).flat()
+    }
+
     public update (question: number, { answers, correct, partiallyCorrect }: TestResultsUpdatePayload): void {
         this.results[question] = answers;
 
