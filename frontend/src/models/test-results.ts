@@ -9,10 +9,10 @@ class TestResults {
     partiallyCorrect = 0
     wrong = 0
 
-    results: Array<Array<number>> = []
+    results: Record<number, Array<number>> = {}
 
     public update (question: number, { answers, correct, partiallyCorrect }: TestResultsUpdatePayload): void {
-        this.results[question] = answers
+        this.results[question] = answers;
 
         if (correct) {
             this.correct++

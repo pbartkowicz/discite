@@ -1,8 +1,9 @@
+import { Answer } from '@/models/answer'
 import { CsvQuestion } from '@/models/file-loaded/csv'
 
 class Question {
     question = ''
-    answers: Array<string> = []
+    answers: Array<Answer> = []
     correctAnswers: Array<number> = []
     tips?: string = undefined
     isMultipleChoice: boolean = false
@@ -16,10 +17,10 @@ class Question {
 
         question.question = csvQuestion.question
         question.answers = [
-            csvQuestion.answer1,
-            csvQuestion.answer2,
-            csvQuestion.answer3,
-            csvQuestion.answer4
+            new Answer(1, csvQuestion.answer1),
+            new Answer(2, csvQuestion.answer2),
+            new Answer(3, csvQuestion.answer3),
+            new Answer(4, csvQuestion.answer4),
         ]
         question.correctAnswers = [...csvQuestion.correct]
         question.isMultipleChoice = question.correctAnswers.length > 1
