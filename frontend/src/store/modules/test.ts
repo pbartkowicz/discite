@@ -82,7 +82,7 @@ export default class Test extends VuexModule implements TestModuleState {
     }
 
     get currentQuestionAnswers (): Array<number> {
-        return this.testResults.results[this.currentQuestionIdx]
+        return this.testResults.results[this.currentQuestionIdx] ?? []
     }
 
     get isFirstQuestion (): boolean {
