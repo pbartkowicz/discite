@@ -31,5 +31,6 @@ urlpatterns = [
 
     # Test API
     path('api/test/<str:test_id>', views.show_test, name='show test data'),
-    path('api/test', views.create_test, name='create test')
+    path('api/test', views.create_test, name='create test'),
+    path('api/test/<str:test_id>/submit', views.submit_test, name='submit test')
 ]
