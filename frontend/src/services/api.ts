@@ -23,6 +23,7 @@ export default {
     },
     user: {
         password: '',
-        profile: ''
+        profile: '',
+        changeProfile: ''
     }
 }

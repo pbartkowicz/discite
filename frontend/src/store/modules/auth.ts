@@ -71,7 +71,6 @@ export default class Auth extends VuexModule implements AuthModuleState {
     async obtainToken (): Promise<void> {
         this.updateTokens(await AuthService.obtainToken(this.login, this.password))
 
-        this.setLogin('')
         this.setPassword('')
     }
 

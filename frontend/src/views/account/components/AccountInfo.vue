@@ -18,10 +18,12 @@
 
         <v-card-actions class="justify-end">
             <v-btn text
+                   color="amber"
                    :to="{ name: 'account.edit' }">
                 Edit data
             </v-btn>
             <v-btn text
+                   color="primary"
                    :to="{ name: 'account.password' }">
                 Change password
             </v-btn>
@@ -36,10 +38,12 @@
     @Component
     export default class Account extends Vue {
         get username (): string {
+            // TODO: From store
             return 'magiczne'
         }
 
         get email (): string {
+            // TODO: From store
             return 'magiczne@discite.com'
         }
     }

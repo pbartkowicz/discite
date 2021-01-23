@@ -2,7 +2,11 @@ import axios from 'axios'
 
 import Api from '@/services/api'
 
-type ChangePasswordRequest = {
+interface ChangePasswordRequest {
+    // TODO
+}
+
+interface ChangeProfileRequest {
     // TODO
 }
 
@@ -13,6 +17,10 @@ interface UserProfile {
 class AccountService {
     async changePassword (request: ChangePasswordRequest): Promise<void> {
         await axios.patch(Api.user.password, request)
+    }
+
+    async changeProfile (request: ChangeProfileRequest): Promise<void> {
+        await axios.patch(Api.user.changeProfile, request)
     }
 
     async userProfile (): Promise<UserProfile> {

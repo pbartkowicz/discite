@@ -7,7 +7,10 @@ const routes: Array<RouteConfig> = [
     { path: '/', name: 'home', component: Home },
     { path: '/auth', name: 'auth', component: () => import('@/views/Auth.vue'), meta: { state: UserState.Guest } },
 
+    // Account
     { path: '/account', name: 'account', component: () => import('@/views/account/Account.vue'), meta: { state: UserState.LoggedIn } },
+    { path: '/account/edit', name: 'account.edit', component: () => import('@/views/account/EditAccount.vue'), meta: { state: UserState.LoggedIn } },
+    { path: '/account/password', name: 'account.password', component: () => import('@/views/account/ChangePassword.vue'), meta: { state: UserState.LoggedIn } },
 
     // Test
     {
