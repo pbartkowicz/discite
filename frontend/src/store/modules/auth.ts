@@ -11,7 +11,8 @@ config.rawError = true
 export default class Auth extends VuexModule implements AuthModuleState {
     login = ''
     password = ''
-    token = ''
+    accessToken = ''
+    refreshToken = ''
 
     @Mutation
     setLogin (payload: string): void {
@@ -24,23 +25,25 @@ export default class Auth extends VuexModule implements AuthModuleState {
     }
 
     @Mutation
-    updateToken (payload: string): void {
-        this.token = payload
+    updateTokens (payload: { access: string, refresh: string }): void {
+        this.accessToken = payload.access
+        this.refreshToken = payload.refresh
 
-        axios.defaults.headers.common.Authorization = `JWT ${this.token}`
+        axios.defaults.headers.common.Authorization = `Bearer ${this.accessToken}`
     }
 
     @Mutation
     removeToken (): void {
-        this.token = ''
+        this.accessToken = ''
+        this.refreshToken = ''
 
         axios.defaults.headers.common.Authorization = ''
     }
 
     @Action
     async checkToken (): Promise<void> {
-        if (this.token) {
-            const decodedToken = jwtDecode<JwtPayload>(this.token)
+        if (this.accessToken) {
+            const decodedToken = jwtDecode<JwtPayload>(this.accessToken)
             const { exp, iat } = decodedToken
 
             if (exp !== undefined) {
@@ -54,7 +57,7 @@ export default class Auth extends VuexModule implements AuthModuleState {
                     : false
 
                 if (expiresIn30Minutes && reachingLifespan) {
-                    await this.refreshToken()
+                    await this.updateToken()
                 } else if (expiresIn30Minutes) {
                     // Basically do nothing. Do not refresh. Token is good.
                 } else {
@@ -66,15 +69,15 @@ export default class Auth extends VuexModule implements AuthModuleState {
 
     @Action
     async obtainToken (): Promise<void> {
-        this.updateToken(await AuthService.obtainToken(this.login, this.password))
+        this.updateTokens(await AuthService.obtainToken(this.login, this.password))
 
         this.setLogin('')
         this.setPassword('')
     }
 
     @Action
-    async refreshToken (): Promise<void> {
-        this.updateToken(await AuthService.refreshToken(this.token))
+    async updateToken (): Promise<void> {
+        this.updateTokens(await AuthService.refreshToken(this.refreshToken))
     }
 
     @Action
@@ -83,6 +86,6 @@ export default class Auth extends VuexModule implements AuthModuleState {
     }
 
     get isLoggedIn (): boolean {
-        return this.token !== ''
+        return this.accessToken !== ''
     }
 }

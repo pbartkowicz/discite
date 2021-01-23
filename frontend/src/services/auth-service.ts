@@ -3,21 +3,21 @@ import axios from 'axios'
 import Api from '@/services/api'
 
 class AuthService {
-    async obtainToken (login: string, password: string): Promise<string> {
-        const response = await axios.post<{ token: string }>(Api.auth.jwt.obtain, {
+    async obtainToken (login: string, password: string): Promise<{ access: string, refresh: string }> {
+        const response = await axios.post<{ access: string, refresh: string }>(Api.auth.token.get, {
             username: login,
             password: password
         })
 
-        return response.data.token
+        return response.data
     }
 
-    async refreshToken (token: string): Promise<string> {
-        const response = await axios.post<{ token: string }>(Api.auth.jwt.refresh, {
+    async refreshToken (token: string): Promise<{ access: string, refresh: string }> {
+        const response = await axios.post<{ access: string, refresh: string }>(Api.auth.token.refresh, {
             token: token
         })
 
-        return response.data.token
+        return response.data
     }
 }
 

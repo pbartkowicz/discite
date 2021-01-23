@@ -15,7 +15,8 @@ const vuexLocal = new VuexPersistence<StoreState>({
     asyncStorage: true,
     reducer: (state: StoreState) => ({
         auth: {
-            token: state.auth.token
+            accessToken: state.auth.accessToken,
+            refreshToken: state.auth.refreshToken
         }
     }),
     storage: localforage

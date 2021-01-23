@@ -4,7 +4,8 @@ import { TestResults } from '@/models/test-results'
 interface AuthModuleState {
     login: string
     password: string
-    token: string
+    accessToken: string
+    refreshToken: string
 }
 
 interface ErrorsModuleState {

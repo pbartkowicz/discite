@@ -1,8 +1,8 @@
 export default {
     auth: {
-        jwt: {
-            obtain: 'auth/obtain_token',
-            refresh: 'auth/refresh_token'
+        token: {
+            get: 'api/token',
+            refresh: 'api/token'
         }
     },
     // TODO: Fill the api
