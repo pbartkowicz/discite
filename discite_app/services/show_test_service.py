@@ -28,24 +28,24 @@ def show_test(test_id, user):
 
 def map_question_to_question_dto(question):
     answers = question.answer_set.all()
-    correct_answers_indexes = []
+    correct_answers_ids = []
     answers_dto = []
 
-    for i in range(len(answers)):
-        if answers[i].is_correct:
-            correct_answers_indexes.append(i)
+    for answer in answers:
+        if answer.is_correct:
+            correct_answers_ids.append(answer.id)
         answers_dto.append({
-            'id': answers[i].id,
-            'value': answers[i].value
+            'id': answer.id,
+            'value': answer.value
         })
 
     return {
         'id': question.id,
         'question': question.question,
         'answers': answers_dto,
-        'correctAnswers': correct_answers_indexes,
+        'correctAnswers': correct_answers_ids,
         'tips': question.tips,
-        'isMultipleChoice': len(correct_answers_indexes) > 1
+        'isMultipleChoice': len(correct_answers_ids) > 1
     }
 
 
