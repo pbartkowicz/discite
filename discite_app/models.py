@@ -23,7 +23,7 @@ class Test(models.Model):
 
     name = models.CharField(max_length=100)
     description = models.TextField(max_length=250)
-    is_public = models.BooleanField
+    is_public = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)
 
 
