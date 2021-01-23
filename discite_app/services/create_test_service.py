@@ -11,8 +11,11 @@ def create_test(data, current_user):
         test.save()
 
         for json_question in data['questions']:
-            question = Question(test=test, tips=json_question['tips'], question=json_question['question'],
-                                is_certain=True)
+            if 'tips' in json_question:
+                tips = json_question['tips']
+            else:
+                tips = ''
+            question = Question(test=test, tips=tips, question=json_question['question'], is_certain=True)
             question.save()
 
             json_answers = json_question['answers']
@@ -31,7 +34,7 @@ def validate_test(data):
     questions = data['questions']
     if len(questions) < 1: return False
     for question in questions:
-        if len(question['tips']) > 250: return False
+        if 'tips' in question and len(question['tips']) > 250: return False
         if len(question['question']) > 250: return False
 
         answers = question['answers']
