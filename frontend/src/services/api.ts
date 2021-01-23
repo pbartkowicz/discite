@@ -1,25 +1,25 @@
 export default {
     auth: {
-        jwt: {
-            obtain: 'auth/obtain_token',
-            refresh: 'auth/refresh_token'
+        token: {
+            get: 'api/token',
+            refresh: 'api/token/refresh'
         }
     },
     // TODO: Fill the api
     test: {
-        create: '',
+        create: 'api/test',
         read (id: number): string {
-            return ''
+            return `api/test/${id}`
         },
         update (id: number): string {
-            return ''
+            return `api/test/${id}`
         },
         delete (id: number): string {
-            return ''
+            return `api/test/${id}`
         }
     },
     user: {
-        password: ''
+        password: '',
         profile: ''
     }
 }

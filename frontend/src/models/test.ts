@@ -1,5 +1,13 @@
 import { CsvQuestion } from '@/models/file-loaded/csv'
-import { Question } from '@/models/question'
+import { QuestionInterface, Question } from '@/models/question'
+
+interface TestInterface {
+    id: number
+    name: string
+    description: string
+    questions: Array<QuestionInterface>
+    created_at: string
+}
 
 class Test {
     id: number = 0
@@ -17,6 +25,17 @@ class Test {
         return test
     }
 
+    public static fromInterface (testInterface: TestInterface): Test {
+        const test = new Test()
+
+        test.id = testInterface.id
+        test.description = testInterface.description
+        test.questions = testInterface.questions.map(question => Question.fromInterface(question))
+        test.created_at = testInterface.created_at
+
+        return test
+    }
+
     get result (): string {
         // TODO
         return `${Math.round(Math.random() * 100)}%`
@@ -24,5 +43,6 @@ class Test {
 }
 
 export {
+    TestInterface,
     Test
 }

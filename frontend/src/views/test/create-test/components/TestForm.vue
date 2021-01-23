@@ -120,7 +120,7 @@
                                                                  name="Answer"
                                                                  rules="required|max:191"
                                                                  :key="j">
-                                                <v-text-field v-model="question.answers[j]"
+                                                <v-text-field v-model="question.answers[j].value"
                                                               dense
                                                               :error-messages="errors">
                                                     <template #prepend>
@@ -163,6 +163,7 @@
 
     import * as ArrayUtils from '@/utils/array-utils'
 
+    import { Answer } from '@/models/answer'
     import { Question } from '@/models/question'
     import { Test } from '@/models/test'
 
@@ -189,7 +190,11 @@
         onAddQuestionClick (): void {
             const question = new Question()
             question.question = `Question ${this.test.questions.length + 1}`
-            question.answers = ['', '', '']
+            question.answers = [
+                new Answer(1, ''),
+                new Answer(2, ''),
+                new Answer(3, '')
+            ]
 
             this.test.questions.push(question)
         }
@@ -201,7 +206,7 @@
         onNumberOfAnswersChanged (question: Question, answers: number): void {
             const newCount = Math.min(answers, this.maxAnswers)
 
-            question.answers = ArrayUtils.resize(question.answers, newCount, '')
+            question.answers = ArrayUtils.resize(question.answers, newCount, new Answer(0, ''))
         }
 
         onSaveClicked (): void {

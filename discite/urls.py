@@ -15,13 +15,21 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
-from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
+from discite_app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     # JWT Auth
-    path('auth/obtain_token', obtain_jwt_token),
-    path('auth/refresh_token', refresh_jwt_token)
+    path('api/token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
+
+    # Test API
+    path('test/<str:test_id>', views.show_test, name='show test data'),
+    path('test', views.create_test, name='create test')
 ]

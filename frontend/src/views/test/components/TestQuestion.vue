@@ -14,22 +14,22 @@
             <template v-if="!question.isMultipleChoice">
                 <v-radio-group v-model="innerAnswers[0]"
                                class="mt-0">
-                      <v-radio v-for="(answer, idx) in question.answers"
+                      <v-radio v-for="answer in question.answers"
                                :disabled="checked"
-                               :key="idx"
-                               :label="answer"
-                               :value="idx + 1" />
+                               :key="answer.id"
+                               :label="answer.value"
+                               :value="answer.id" />
                 </v-radio-group>
             </template>
             <template v-else>
-               <v-checkbox v-for="(answer, idx) in question.answers"
+               <v-checkbox v-for="answer in question.answers"
                            v-model="innerAnswers"
                            class="mt-0"
                            hide-details
                            :disabled="checked"
-                           :key="idx"
-                           :label="answer"
-                           :value="idx + 1" />
+                           :key="answer.id"
+                           :label="answer.value"
+                           :value="answer.id" />
             </template>
         </v-card-text>
         <v-card-actions>
@@ -63,6 +63,7 @@
     import Component from 'vue-class-component'
     import { Prop, Watch } from 'vue-property-decorator'
 
+    import { Answer } from '@/models/answer'
     import { Question } from '@/models/question'
 
     import TestQuestionBadge from '@/views/test/components/TestQuestionBadge.vue'
@@ -71,7 +72,7 @@
         components: { TestQuestionBadge }
     })
     export default class TestQuestion extends Vue {
-        @Prop({ type: Array, required: true }) answers!: Array<number>
+        @Prop({ type: Array, required: true }) answers!: Array<Answer>
         @Prop({ type: Boolean, required: true }) checked!: boolean
         @Prop({ type: Object, required: true }) question!: Question
         @Prop({ type: Boolean, required: true }) revealed!: boolean
