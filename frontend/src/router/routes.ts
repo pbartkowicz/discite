@@ -1,4 +1,4 @@
-import { RouteConfig } from 'vue-router'
+import { RouteConfig, Route } from 'vue-router'
 
 import { UserState } from '@/router/user-state'
 import Home from '@/views/Home.vue'
@@ -10,7 +10,18 @@ const routes: Array<RouteConfig> = [
     { path: '/account', name: 'account', component: () => import('@/views/account/Account.vue'), meta: { state: UserState.LoggedIn } },
 
     // Test
-    { path: '/test/solve', name: 'test.solve', component: () => import('@/views/test/SolveTest.vue') },
+    {
+        path: '/test/solve/:id([0-9]+)?',
+        name: 'test.solve',
+        component: () => import('@/views/test/SolveTest.vue'),
+        props: (route: Route) => {
+            const id = route.params.id as (string | undefined)
+
+            return {
+                id: id === undefined ? undefined : parseInt(id, 10)
+            }
+        }
+    },
     { path: '/test/results', name: 'test.results', component: () => import('@/views/test/TestResults.vue') },
 
     { path: '/test/create', name: 'test.create', component: () => import('@/views/test/create-test/CreateTest.vue'), meta: { state: UserState.LoggedIn } }
