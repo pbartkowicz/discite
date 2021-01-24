@@ -19,6 +19,10 @@ class AuthService {
 
         return response.data
     }
+
+    async signUp (request: { login: string, email: string, password: string }): Promise<void> {
+        await axios.post(Api.auth.signUp, request)
+    }
 }
 
 export default new AuthService()

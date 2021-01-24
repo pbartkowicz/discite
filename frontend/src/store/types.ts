@@ -12,6 +12,12 @@ interface ErrorsModuleState {
     error: string
 }
 
+interface SignUpModuleState {
+    login: string
+    email: string
+    password: string
+}
+
 interface TestModuleState {
     currentQuestionIdx: number
     checked: boolean
@@ -21,14 +27,29 @@ interface TestModuleState {
     testResults: TestResults
 }
 
+interface UserModuleState {
+    email: string
+    nickname: string
+}
+
 interface StoreState {
     auth: AuthModuleState
+    errors: ErrorsModuleState
+    signup: SignUpModuleState
+    test: TestModuleState
+    user: UserModuleState
+}
+
+type PartialStoreState = {
+    [T in keyof StoreState]?: Partial<StoreState[T]>
 }
 
 export {
     AuthModuleState,
     ErrorsModuleState,
+    SignUpModuleState,
     TestModuleState,
+    UserModuleState,
 
-    StoreState
+    PartialStoreState, StoreState
 }

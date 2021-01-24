@@ -12,7 +12,7 @@
                                              rules="required">
                             <v-text-field v-model="nickname"
                                           label="Nickname"
-                                          prepend-icon="mdi-account-online"
+                                          prepend-icon="mdi-account-outline"
                                           :error-messages="errors"
                                           @keydown.enter="handleSubmit(onEditAccount)" />
                         </validation-provider>
@@ -37,12 +37,14 @@
 
     import AccountService from '@/services/acccount-service'
 
-    import AuthModule from '@/store/modules/auth'
     import ErrorsModule from '@/store/modules/errors'
+    import UserModule from '@/store/modules/user'
 
     @Component
     export default class ChangePassword extends Vue {
-        nickname = ''
+        get nickname (): string {
+            return getModule(UserModule, this.$store).nickname
+        }
 
         async onEditAccount (): Promise<void> {
             await AccountService.changeProfile({
@@ -53,11 +55,6 @@
             await this.$router.push({
                 name: 'account'
             })
-        }
-
-        async created (): Promise<void> {
-            // TODO: This should be auth module
-            this.nickname = getModule(AuthModule, this.$store).login
         }
     }
 </script>

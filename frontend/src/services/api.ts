@@ -3,9 +3,9 @@ export default {
         token: {
             get: 'api/token',
             refresh: 'api/token/refresh'
-        }
+        },
+        signUp: '' // TODO
     },
-    // TODO: Fill the api
     test: {
         create: 'api/test',
         read (id: number): string {
@@ -22,8 +22,12 @@ export default {
         }
     },
     user: {
-        password: '',
-        profile: '',
-        changeProfile: ''
+        // TODO: Fill the api
+        userInfo: '',
+        changePassword: '',
+        profile: {
+            read: '',
+            update: ''
+        }
     }
 }
