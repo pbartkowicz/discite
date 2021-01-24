@@ -32,5 +32,11 @@ urlpatterns = [
     # Test API
     path('api/test/<str:test_id>', views.show_test, name='show test data'),
     path('api/test', views.create_test, name='create test'),
-    path('api/test/<str:test_id>/submit', views.submit_test, name='submit test')
+    path('api/test/<str:test_id>/submit', views.submit_test, name='submit test'),
+
+    # User API
+    path('api/user/register', views.register_user, name='register a new user'),
+    path('api/user/info', views.get_user_info, name='get user info'),
+    path('api/user/nick', views.change_user_nick, name='change user nick'),
+    path('api/user/password', views.change_user_password, name='change user password')
 ]
