@@ -2,16 +2,18 @@ import axios from 'axios'
 
 import Api from '@/services/api'
 
-interface UserInfo {
+interface UserTestsData {
     // TODO
 }
 
 interface ChangePasswordRequest {
-    // TODO
+    new: string
+    old: string
+    confirmation: string
 }
 
 interface ChangeProfileRequest {
-    // TODO
+    nickname: string
 }
 
 interface UserProfile {
@@ -28,8 +30,8 @@ class AccountService {
         await axios.patch(Api.user.profile.update, request)
     }
 
-    async userInfo (): Promise<UserInfo> {
-        const response = await axios.get<UserInfo>(Api.user.userInfo)
+    async userTestsData (): Promise<UserTestsData> {
+        const response = await axios.get<UserTestsData>(Api.user.userTestsData)
 
         return response.data
     }

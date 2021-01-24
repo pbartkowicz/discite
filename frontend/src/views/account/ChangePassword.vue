@@ -65,9 +65,10 @@
 
         async onChangePassword (): Promise<void> {
             await AccountService.changePassword({
-                // TODO: Structure
+                old: this.oldPassword,
+                new: this.newPassword,
+                confirmation: this.newPasswordConfirmation
             })
-
             await getModule(ErrorsModule, this.$store).showError('Password changed')
             await this.$router.push({
                 name: 'account'

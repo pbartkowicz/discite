@@ -35,22 +35,23 @@
     import Component from 'vue-class-component'
     import { getModule } from 'vuex-module-decorators'
 
-    import AccountService from '@/services/acccount-service'
-
     import ErrorsModule from '@/store/modules/errors'
     import UserModule from '@/store/modules/user'
 
     @Component
     export default class ChangePassword extends Vue {
+        userModule = getModule(UserModule, this.$store)
+
         get nickname (): string {
-            return getModule(UserModule, this.$store).nickname
+            return this.userModule.nickname
+        }
+
+        set nickname (value: string) {
+            this.userModule.setNickname(value)
         }
 
         async onEditAccount (): Promise<void> {
-            await AccountService.changeProfile({
-                // TODO: Structure
-            })
-
+            await this.userModule.updateProfile()
             await getModule(ErrorsModule, this.$store).showError('Profile updated')
             await this.$router.push({
                 name: 'account'

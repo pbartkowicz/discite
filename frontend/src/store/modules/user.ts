@@ -27,4 +27,11 @@ export default class User extends VuexModule implements UserModuleState {
         this.setEmail(data.email)
         this.setNickname(data.nickname)
     }
+
+    @Action
+    async updateProfile (): Promise<void> {
+        await AccountService.changeProfile({
+            nickname: this.nickname
+        })
+    }
 }

@@ -4,7 +4,7 @@ export default {
             get: 'api/token',
             refresh: 'api/token/refresh'
         },
-        signUp: '' // TODO
+        signUp: 'api/user/register'
     },
     test: {
         create: 'api/test',
@@ -22,12 +22,11 @@ export default {
         }
     },
     user: {
-        // TODO: Fill the api
-        userInfo: '',
-        changePassword: '',
+        userTestsData: '', // TODO
+        changePassword: 'api/user/password',
         profile: {
-            read: '',
-            update: ''
+            read: 'api/user/info',
+            update: 'api/user/nick'
         }
     }
 }
