@@ -1,6 +1,14 @@
 <template>
     <v-col>
-        <test-question :answers="answers"
+        <template v-if="testModule.test.questions.length === 0">
+            <v-card>
+                <v-card-title class="justify-center">
+                    This test has no questions. What?
+                </v-card-title>
+            </v-card>
+        </template>
+        <test-question v-else
+                       :answers="answers"
                        :checked.sync="checked"
                        :question="testModule.currentQuestion"
                        :revealed.sync="revealed"

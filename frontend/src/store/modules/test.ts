@@ -6,6 +6,8 @@ import { TestResults, TestResultsUpdatePayload } from '@/models/test-results'
 import { TestModuleState } from '@/store/types'
 import { Question } from '@/models/question'
 
+import TestService from '@/services/test-service'
+
 config.rawError = true
 
 @Module({ name: 'test', namespaced: true, stateFactory: true })
@@ -14,10 +16,16 @@ export default class Test extends VuexModule implements TestModuleState {
     checked = false
     revealed = false
 
+    isLoaded = false
     test = new TestModel()
     testResults = new TestResults()
 
     // region Mutations
+
+    @Mutation
+    setIsLoaded (payload: boolean): void {
+        this.isLoaded = payload
+    }
 
     @Mutation
     decrementCurrentQuestion (): void {
@@ -72,13 +80,20 @@ export default class Test extends VuexModule implements TestModuleState {
         this.incrementCurrentQuestion()
     }
 
+    @Action
+    async loadTest (id: number): Promise<void> {
+        this.setTest(await TestService.read(id))
+        this.setIsLoaded(true)
+
+        console.log(this.test)
+    }
 
     // endregion
 
     // region Getters
 
     get currentQuestion (): Question {
-        return this.test.questions[this.currentQuestionIdx]
+        return this.test.questions[this.currentQuestionIdx] ?? new Question()
     }
 
     get currentQuestionAnswers (): Array<number> {

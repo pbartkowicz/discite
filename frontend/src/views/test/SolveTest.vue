@@ -22,7 +22,6 @@
     import TestStats from '@/views/test/components/TestStats.vue'
 
     import TestModule from '@/store/modules/test'
-    import TestService from '@/services/test-service'
 
     @Component({
         components: { Test, TestStats }
@@ -30,11 +29,18 @@
     export default class SolveTest extends Vue {
         @Prop({ type: Number, required: false }) id?: number
 
+        testModule = getModule(TestModule, this.$store)
+
         async created (): Promise<void> {
             if (this.id) {
-                const test = await TestService.read(this.id)
+                await this.testModule.loadTest(this.id)
+            }
 
-                getModule(TestModule, this.$store).setTest(test)
+            if (!this.testModule.isLoaded) {
+                await this.$router.push({
+                    name: 'home'
+                })
+                return
             }
         }
     }

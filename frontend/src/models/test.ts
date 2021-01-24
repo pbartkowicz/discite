@@ -1,11 +1,12 @@
 import { CsvQuestion } from '@/models/file-loaded/csv'
-import { Question } from '@/models/question'
+import { Question, QuestionInterface } from '@/models/question'
 
 interface TestInterface {
     id: number
     name: string
     description: string
-    questionsNum: number
+    questions: Array<QuestionInterface>
+    questionsNum?: number
     createdAt: string
 }
 
@@ -31,8 +32,13 @@ class Test {
         test.id = testInterface.id
         test.name = testInterface.name
         test.description = testInterface.description
-        test.questions = Array.from({ length: testInterface.questionsNum })
         test.created_at = testInterface.createdAt
+
+        if (testInterface.questionsNum) {
+            test.questions = Array.from({ length: testInterface.questionsNum })
+        } else {
+            test.questions = []
+        }
 
         return test
     }

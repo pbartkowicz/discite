@@ -7,7 +7,6 @@ import ErrorsModule from '@/store/modules/errors'
 Vue.config.errorHandler = async function (err, vm) {
     if (process.env.NODE_ENV !== 'production') {
         console.debug(err)
-        console.debug((err as AxiosError).response)
     }
 
     const errorsModule = getModule(ErrorsModule, vm.$store)

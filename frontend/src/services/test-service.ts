@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import { Test } from '@/models/test'
+import {Test, TestInterface} from '@/models/test'
 import { TestResults } from '@/models/test-results'
 
 import Api from '@/services/api'
@@ -11,9 +11,12 @@ class TestService {
     }
 
     async read (id: number): Promise<Test> {
-        const response = await axios.get<Test>(Api.test.read(id))
+        const response = await axios.get<{
+            results: unknown, // TODO
+            test: TestInterface
+        }>(Api.test.read(id))
 
-        return response.data
+        return Test.fromInterface(response.data.test)
     }
 
     async update (test: Test): Promise<void> {
