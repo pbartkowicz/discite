@@ -1,0 +1,18 @@
+[
+  {
+    "model": "discite_app.Achievement",
+    "pk": 1,
+    "fields": {
+      "key": "SOLVE_TEST",
+      "description": "Rozwiązano jeden test!"
+    }
+  },
+  {
+    "model": "discite_app.Achievement",
+    "pk": 2,
+    "fields": {
+      "key": "CREATE_TEST",
+      "description": "Utworzono test!"
+    }
+  }
+]

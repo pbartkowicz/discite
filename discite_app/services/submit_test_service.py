@@ -2,6 +2,7 @@ from django.core.exceptions import SuspiciousOperation
 from django.db import transaction
 
 from discite_app.models import Answer, TestResult, TestResultAnswer, Question
+from discite_app.services import achievement_services
 
 
 @transaction.atomic
@@ -13,8 +14,11 @@ def submit_test(data, user, test_id):
     test_questions = Question.objects.filter(test_id=test_id).prefetch_related('answers').all()
     result_summary = calculate_result_summary(test_questions, user_new_answer_ids)
 
-    test_result = TestResult.objects.get_or_create(test_id=test_id, user_id=user.id, correct=0,
-                                                   partially_correct=0, wrong=0)[0]
+    test_result_get_or_create_result = TestResult.objects.get_or_create(test_id=test_id, user_id=user.id,
+                                                                        defaults={'correct': 0,
+                                                                                  'partially_correct': 0,
+                                                                                  'wrong': 0})
+    test_result = test_result_get_or_create_result[0]
     test_result.correct = result_summary['correct']
     test_result.partially_correct = result_summary['partially_correct']
     test_result.wrong = result_summary['wrong']
@@ -23,7 +27,8 @@ def submit_test(data, user, test_id):
     TestResultAnswer.objects.filter(test_result=test_result).delete()
     for user_new_answer_id in user_new_answer_ids:
         TestResultAnswer.objects.create(test_result=test_result, answer_id=user_new_answer_id)
-    # TODO: achievements
+
+    achievement_services.update_user_solve_achievements(test_result, user)
 
 
 def validate_answers(possible_test_answer_ids, user_new_answer_ids):
