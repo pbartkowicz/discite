@@ -17,7 +17,7 @@ class TestService {
     }
 
     async update (test: Test): Promise<void> {
-        await axios.patch(Api.test.update(test.id), TestService.modelToRequest(test))
+        await axios.put(Api.test.update(test.id), TestService.modelToRequest(test))
     }
 
     async delete (id: number): Promise<void> {

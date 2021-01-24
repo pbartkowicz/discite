@@ -23,11 +23,11 @@ interface UserProfile {
 
 class AccountService {
     async changePassword (request: ChangePasswordRequest): Promise<void> {
-        await axios.patch(Api.user.changePassword, request)
+        await axios.put(Api.user.changePassword, request)
     }
 
     async changeProfile (request: ChangeProfileRequest): Promise<void> {
-        await axios.patch(Api.user.profile.update, request)
+        await axios.put(Api.user.profile.update, request)
     }
 
     async userTestsData (): Promise<UserTestsData> {
