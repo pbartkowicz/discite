@@ -4,7 +4,8 @@ from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from discite_app.services import show_test_service, create_test_service, submit_test_service, user_services
+from discite_app.services import show_test_service, create_test_service, submit_test_service, user_services, \
+    user_profile_service
 
 jwt = JWTAuthentication()
 
@@ -90,3 +91,14 @@ def change_user_password(request):
         data = json.loads(request.body.decode('utf-8'))
         user_services.change_user_password(data, current_user)
         return HttpResponse('')
+
+
+def get_user_profile(request):
+    try:
+        auth_tuple = jwt.authenticate(request)
+        current_user = auth_tuple[0]
+    except:
+        return HttpResponse('Unathorized', status=401)
+
+    if request.method == 'GET':
+        return JsonResponse(user_profile_service.get_user_profile(current_user))

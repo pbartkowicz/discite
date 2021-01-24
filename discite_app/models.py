@@ -18,6 +18,18 @@ class Avatar(models.Model):
     is_for_premium = models.BooleanField()
 
 
+class Achievement(models.Model):
+    key = models.CharField(max_length=20)
+    description = models.CharField(max_length=100)
+
+
+class UserAchievement(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    achievement = models.ForeignKey(Achievement, on_delete=models.CASCADE)
+
+    acquired_at = models.DateTimeField(auto_now_add=True)
+
+
 class Test(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 

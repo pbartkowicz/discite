@@ -2,6 +2,7 @@ from django.core.exceptions import SuspiciousOperation
 from django.db import transaction
 
 from discite_app.models import Test, Question, Answer
+from discite_app.services import achievement_services
 
 
 @transaction.atomic
@@ -24,6 +25,8 @@ def create_test(data, current_user):
                 is_answer_correct = (i + 1) in json_correct_answers
                 answer = Answer(question=question, value=json_answers[i], is_certain=True, is_correct=is_answer_correct)
                 answer.save()
+
+        achievement_services.update_user_create_achievements(current_user)
     else:
         raise SuspiciousOperation('Invalid create test request')
 
