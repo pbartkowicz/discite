@@ -10,7 +10,7 @@ def show_test(test_id, user):
         'id': test.id,
         'name': test.name,
         'description': test.description,
-        'createdAt': test.created_at,
+        'createdAt': test.created_at.strftime('%d/%m/%Y %H:%M'),
         'questions': questions_dto
     }
 

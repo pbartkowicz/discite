@@ -25,7 +25,7 @@ def map_to_test_summary(test):
         'name': test.name,
         'description': test.description,
         'questionsNum': test.question_set.count(),
-        'createdAt': test.created_at
+        'createdAt': test.created_at.strftime('%d/%m/%Y %H:%M')
     }
 
 
