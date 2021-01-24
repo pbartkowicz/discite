@@ -27,7 +27,7 @@ def show_test(test_id, user):
 
 
 def map_question_to_question_dto(question):
-    answers = question.answer_set.all()
+    answers = question.answers.all()
     correct_answers_ids = []
     answers_dto = []
 
