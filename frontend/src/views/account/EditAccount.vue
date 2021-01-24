@@ -4,12 +4,13 @@
             <v-col cols="12"
                    lg="6"
                    offset-lg="3">
-                <h4 class="text-h4 text-center">Change password</h4>
+                <h4 class="text-h4 text-center">Edit account information</h4>
 
                 <validation-observer v-slot="{ handleSubmit, valid }">
                     <v-form>
                         <validation-provider v-slot="{ errors }"
-                                             rules="required">
+                                             name="Nickname"
+                                             rules="required|min:6">
                             <v-text-field v-model="nickname"
                                           label="Nickname"
                                           prepend-icon="mdi-account-outline"
@@ -21,7 +22,7 @@
                                color="primary"
                                :disabled="!valid"
                                @click="handleSubmit(onEditAccount)">
-                            Change password
+                            Save
                         </v-btn>
                     </v-form>
                 </validation-observer>

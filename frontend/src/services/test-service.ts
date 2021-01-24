@@ -1,9 +1,9 @@
 import axios from 'axios'
 
 import { Test } from '@/models/test'
+import { TestResults } from '@/models/test-results'
 
 import Api from '@/services/api'
-import {TestResults} from "@/models/test-results";
 
 class TestService {
     async create (test: Test): Promise<void> {

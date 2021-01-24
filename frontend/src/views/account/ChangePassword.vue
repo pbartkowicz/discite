@@ -9,6 +9,7 @@
                 <validation-observer v-slot="{ handleSubmit, valid }">
                     <v-form>
                         <validation-provider v-slot="{ errors }"
+                                             name="Old password"
                                              rules="required">
                             <v-text-field v-model="oldPassword"
                                           label="Old password"
@@ -18,7 +19,8 @@
                         </validation-provider>
 
                         <validation-provider v-slot="{ errors }"
-                                             rules="required">
+                                             name="New password"
+                                             rules="required|min:6">
                             <v-text-field v-model="newPassword"
                                           label="New password"
                                           prepend-icon="mdi-lock-outline"
@@ -27,7 +29,8 @@
                         </validation-provider>
 
                         <validation-provider v-slot="{ errors }"
-                                             rules="required">
+                                             name="Confirm new password"
+                                             rules="required|min:6">
                             <v-text-field v-model="newPasswordConfirmation"
                                           label="Confirm new password"
                                           prepend-icon="mdi-lock"
