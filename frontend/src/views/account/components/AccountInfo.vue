@@ -34,17 +34,20 @@
 <script lang="ts">
     import Vue from 'vue'
     import Component from 'vue-class-component'
+    import { getModule } from 'vuex-module-decorators'
+
+    import UserModule from '@/store/modules/user'
 
     @Component
     export default class Account extends Vue {
+        userModule = getModule(UserModule, this.$store)
+
         get username (): string {
-            // TODO: From store
-            return 'magiczne'
+            return this.userModule.nickname
         }
 
         get email (): string {
-            // TODO: From store
-            return 'magiczne@discite.com'
+            return this.userModule.email
         }
     }
 </script>

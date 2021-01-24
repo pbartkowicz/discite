@@ -22,7 +22,7 @@ export default {
         }
     },
     user: {
-        userTestsData: '', // TODO
+        userTestsData: 'api/user/profile',
         changePassword: 'api/user/password',
         profile: {
             read: 'api/user/info',
