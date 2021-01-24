@@ -1,5 +1,7 @@
 import { Module, VuexModule, Mutation, Action, config } from 'vuex-module-decorators'
 
+import { UserProfileData } from '@/models/user-profile'
+
 import AccountService from '@/services/acccount-service'
 import { UserModuleState } from '@/store/types'
 
@@ -9,6 +11,7 @@ config.rawError = true
 export default class User extends VuexModule implements UserModuleState {
     email = ''
     nickname = ''
+    profileData = new UserProfileData()
 
     @Mutation
     setEmail (payload: string): void {
@@ -20,12 +23,22 @@ export default class User extends VuexModule implements UserModuleState {
         this.nickname = payload
     }
 
+    @Mutation
+    setProfileData (payload: UserProfileData): void {
+        this.profileData = payload
+    }
+
     @Action
     async load (): Promise<void> {
-        const data = await AccountService.userProfile()
+        const { email, nickname } = await AccountService.userProfile()
 
-        this.setEmail(data.email)
-        this.setNickname(data.nickname)
+        this.setEmail(email)
+        this.setNickname(nickname)
+    }
+
+    @Action
+    async loadProfile (): Promise<void> {
+        this.setProfileData(await AccountService.userTestsData())
     }
 
     @Action

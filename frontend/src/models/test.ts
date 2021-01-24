@@ -1,12 +1,12 @@
 import { CsvQuestion } from '@/models/file-loaded/csv'
-import { QuestionInterface, Question } from '@/models/question'
+import { Question } from '@/models/question'
 
 interface TestInterface {
     id: number
     name: string
     description: string
-    questions: Array<QuestionInterface>
-    created_at: string
+    questionsNum: number
+    createdAt: string
 }
 
 class Test {
@@ -29,9 +29,10 @@ class Test {
         const test = new Test()
 
         test.id = testInterface.id
+        test.name = testInterface.name
         test.description = testInterface.description
-        test.questions = testInterface.questions.map(question => Question.fromInterface(question))
-        test.created_at = testInterface.created_at
+        test.questions = Array.from({ length: testInterface.questionsNum })
+        test.created_at = testInterface.createdAt
 
         return test
     }

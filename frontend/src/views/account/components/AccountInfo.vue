@@ -39,7 +39,7 @@
     import UserModule from '@/store/modules/user'
 
     @Component
-    export default class Account extends Vue {
+    export default class AccountInfo extends Vue {
         userModule = getModule(UserModule, this.$store)
 
         get username (): string {

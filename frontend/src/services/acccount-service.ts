@@ -1,25 +1,12 @@
 import axios from 'axios'
 
+import { UserProfile } from '@/models/user'
+import { UserProfileData, UserProfileDataInterface } from '@/models/user-profile'
+
+import { ChangePasswordRequest } from '@/models/requests/change-password'
+import { ChangeProfileRequest } from '@/models/requests/change-profile'
+
 import Api from '@/services/api'
-
-interface UserTestsData {
-    // TODO
-}
-
-interface ChangePasswordRequest {
-    new: string
-    old: string
-    confirmation: string
-}
-
-interface ChangeProfileRequest {
-    nickname: string
-}
-
-interface UserProfile {
-    email: string
-    nickname: string
-}
 
 class AccountService {
     async changePassword (request: ChangePasswordRequest): Promise<void> {
@@ -30,10 +17,10 @@ class AccountService {
         await axios.put(Api.user.profile.update, request)
     }
 
-    async userTestsData (): Promise<UserTestsData> {
-        const response = await axios.get<UserTestsData>(Api.user.userTestsData)
+    async userTestsData (): Promise<UserProfileData> {
+        const response = await axios.get<UserProfileDataInterface>(Api.user.userTestsData)
 
-        return response.data
+        return UserProfileData.fromInterface(response.data)
     }
 
     async userProfile (): Promise<UserProfile> {

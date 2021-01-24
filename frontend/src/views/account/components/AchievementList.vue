@@ -1,7 +1,7 @@
 <template>
     <v-list>
         <template v-for="(achievement, i) in achievements">
-            <v-list-item :key="i">
+            <v-list-item :key="`achievement-${achievement.id}`">
                 <v-list-item-avatar>
                     <v-icon :class="achievement.acquired_at ? 'green--text' : 'text--secondary'">
                         {{ achievement.icon }}
@@ -17,10 +17,8 @@
                 </v-list-item-subtitle>
             </v-list-item>
 
-
-
             <v-divider v-if="i < achievements.length - 1"
-                       :key="i" />
+                       :key="`divider-${achievement.id}`" />
         </template>
     </v-list>
 </template>
@@ -33,7 +31,7 @@
     import { Achievement } from '@/models/achievement'
 
     @Component
-    export default class Account extends Vue {
+    export default class AchievementList extends Vue {
         @Prop({ type: Array, required: true }) achievements!: Array<Achievement>
     }
 </script>

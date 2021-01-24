@@ -1,6 +1,6 @@
 interface AchievementInterface {
     id: number
-    name: string
+    achievement: string
     acquired_at: string
 }
 
@@ -14,7 +14,7 @@ class Achievement {
         const achievement = new Achievement()
 
         achievement.id = achievementInterface.id
-        achievement.name = achievementInterface.name
+        achievement.name = achievementInterface.achievement
         achievement.acquired_at = achievementInterface.acquired_at
 
         return achievement

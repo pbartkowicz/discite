@@ -32,7 +32,7 @@
     import { Test } from '@/models/test'
 
     @Component
-    export default class Account extends Vue {
+    export default class MyTests extends Vue {
         @Prop({ type: Array, required: true }) tests!: Array<Test>
 
         get headers (): Array<DataTableHeader> {

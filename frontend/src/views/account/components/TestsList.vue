@@ -32,7 +32,7 @@
     import { Test } from '@/models/test'
 
     @Component
-    export default class Account extends Vue {
+    export default class TestsList extends Vue {
         @Prop({ type: Array, required: true }) tests!: Array<Test>
         @Prop({ type: Boolean, default: false }) withResults!: boolean
     }
