@@ -20,7 +20,7 @@ class UserProfileData {
         ret.achievements = data.achievements.map(o => Achievement.fromInterface(o))
         ret.myTests = data.my_tests.map(t => Test.fromInterface(t))
         ret.solvedTests = data.solved_tests.map(t => Test.fromInterface(t))
-        ret.unfinishedTests = data.solved_tests.map(t => Test.fromInterface(t))
+        ret.unfinishedTests = data.unfinished_tests.map(t => Test.fromInterface(t))
 
         return ret
     }

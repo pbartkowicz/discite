@@ -8,7 +8,9 @@
 
                     <v-list-item-subtitle v-if="withResults"
                                           class="mt-2">
-                        Result: {{ test.result }}
+                        <v-chip color="green darken-2 mr-2">Correct: {{ test.correct }}</v-chip>
+                        <v-chip color="yellow darken-2 mr-2">Partially correct: {{ test.partially_correct }}</v-chip>
+                        <v-chip color="red darken-2">Wrong: {{ test.wrong }}</v-chip>
                     </v-list-item-subtitle>
                 </v-list-item-content>
 

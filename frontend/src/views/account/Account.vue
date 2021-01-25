@@ -44,20 +44,20 @@
                         <tests-list with-results
                                     :tests="accountModule.profileData.solvedTests">
                             <template #action>
-                                <v-tooltip left>
-                                    <template #activator="{ attrs, on }">
-                                        <v-btn v-bind="attrs"
-                                               v-on="on"
-                                               icon
-                                               :to="{ name: 'test.results' }">
-                                            <v-icon color="primary">
-                                                mdi-information
-                                            </v-icon>
-                                        </v-btn>
-                                    </template>
+<!--                                <v-tooltip left>-->
+<!--                                    <template #activator="{ attrs, on }">-->
+<!--                                        <v-btn v-bind="attrs"-->
+<!--                                               v-on="on"-->
+<!--                                               icon-->
+<!--                                               :to="{ name: 'test.results' }">-->
+<!--                                            <v-icon color="primary">-->
+<!--                                                mdi-information-->
+<!--                                            </v-icon>-->
+<!--                                        </v-btn>-->
+<!--                                    </template>-->
 
-                                    See the results
-                                </v-tooltip>
+<!--                                    See the results-->
+<!--                                </v-tooltip>-->
                             </template>
                         </tests-list>
                     </v-tab-item>

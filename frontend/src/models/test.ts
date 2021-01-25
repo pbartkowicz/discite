@@ -8,6 +8,10 @@ interface TestInterface {
     questions: Array<QuestionInterface>
     questionsNum?: number
     createdAt: string
+
+    correct?: number
+    wrong?: number
+    partially_correct?: number
 }
 
 class Test {
@@ -15,6 +19,10 @@ class Test {
     name: string = ''
     description: string = ''
     questions: Array<Question> = []
+
+    correct?: number
+    wrong?: number
+    partially_correct?: number
 
     created_at: string = ''
 
@@ -44,12 +52,12 @@ class Test {
             }
         }
 
-        return test
-    }
+        // Test results if coming from results
+        test.correct = testInterface.correct
+        test.wrong = testInterface.wrong
+        test.partially_correct = testInterface.partially_correct
 
-    get result (): string {
-        // TODO
-        return `${Math.round(Math.random() * 100)}%`
+        return test
     }
 }
 
