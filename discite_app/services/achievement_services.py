@@ -25,10 +25,13 @@ def get_achievements_summary(user):
 
     result = []
     for achievement in all_achievements:
+        acquired_at = get_user_achievement_date(achievement.id, user_achievements)
+        if acquired_at is not None:
+            acquired_at = acquired_at.strftime('%d/%m/%Y %H:%M')
         result.append({
             'id': achievement.id,
             'achievement': achievement.description,
-            'acquired_at': get_user_achievement_date(achievement.id, user_achievements).strftime('%d/%m/%Y %H:%M')
+            'acquired_at': acquired_at
         })
     return result
 
