@@ -28,7 +28,7 @@ def get_achievements_summary(user):
         result.append({
             'id': achievement.id,
             'achievement': achievement.description,
-            'acquired_at': get_user_achievement_date(achievement.id, user_achievements)
+            'acquired_at': get_user_achievement_date(achievement.id, user_achievements).strftime('%d/%m/%Y %H:%M')
         })
     return result
 
