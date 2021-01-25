@@ -84,8 +84,6 @@ export default class Test extends VuexModule implements TestModuleState {
     async loadTest (id: number): Promise<void> {
         this.setTest(await TestService.read(id))
         this.setIsLoaded(true)
-
-        console.log(this.test)
     }
 
     // endregion

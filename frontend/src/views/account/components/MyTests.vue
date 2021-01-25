@@ -3,7 +3,24 @@
                   :items="tests">
         <template #item.actions="{ item }">
             <span class="text-no-wrap">
-                <v-btn icon
+                <v-tooltip bottom>
+                    <template #activator="{ attrs, on }">
+                        <v-btn v-bind="attrs"
+                               v-on="on"
+                               icon
+                               :to="{ name: 'test.solve', params: { id: item.id } }">
+                            <v-icon color="amber"
+                                    small>
+                                mdi-play
+                            </v-icon>
+                        </v-btn>
+                    </template>
+
+                    Solve the test
+                </v-tooltip>
+
+                <v-btn disabled
+                       icon
                        @click="onEditEntry(item.id)">
                     <v-icon color="green"
                             small>
@@ -11,7 +28,8 @@
                     </v-icon>
                 </v-btn>
 
-                <v-btn icon
+                <v-btn disabled
+                       icon
                        @click="onDeleteEntry(item.id)">
                     <v-icon color="red"
                             small>
