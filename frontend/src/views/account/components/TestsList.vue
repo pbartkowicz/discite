@@ -1,5 +1,5 @@
 <template>
-    <v-list>
+    <v-list v-if="tests.length > 0">
         <template v-for="(test, i) in tests">
             <v-list-item :key="i">
                 <v-list-item-content>
@@ -21,6 +21,14 @@
             <v-divider v-if="i < tests.length - 1"
                        :key="i" />
         </template>
+    </v-list>
+    <v-list v-else>
+        <v-list-item>
+            <v-list-item-content>
+                <v-list-item-title>Sorry, no entries :(</v-list-item-title>
+                <v-list-item-subtitle>Go solve something!</v-list-item-subtitle>
+            </v-list-item-content>
+        </v-list-item>
     </v-list>
 </template>
 

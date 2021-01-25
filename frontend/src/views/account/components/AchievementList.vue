@@ -1,5 +1,5 @@
 <template>
-    <v-list>
+    <v-list v-if="achievements.length > 0">
         <template v-for="(achievement, i) in achievements">
             <v-list-item :key="`achievement-${achievement.id}`">
                 <v-list-item-avatar>
@@ -20,6 +20,14 @@
             <v-divider v-if="i < achievements.length - 1"
                        :key="`divider-${achievement.id}`" />
         </template>
+    </v-list>
+    <v-list v-else>
+        <v-list-item>
+            <v-list-item-content>
+                <v-list-item-title>Sorry, no entries :(</v-list-item-title>
+                <v-list-item-subtitle>Go do something!</v-list-item-subtitle>
+            </v-list-item-content>
+        </v-list-item>
     </v-list>
 </template>
 
