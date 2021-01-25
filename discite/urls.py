@@ -33,6 +33,7 @@ urlpatterns = [
     path('api/test/<str:test_id>', views.show_test, name='show test data'),
     path('api/test', views.create_test, name='create test'),
     path('api/test/<str:test_id>/submit', views.submit_test, name='submit test'),
+    path('api/test/<str:test_id>/public', views.change_test_public, name='change test public state'),
 
     # User API
     path('api/user/register', views.register_user, name='register a new user'),

@@ -1,8 +1,11 @@
 from discite_app.models import Test, TestResult
+from discite_app.services.test_validations import check_test_public_or_users
 
 
 def show_test(test_id, user):
     test = Test.objects.get(id=test_id)
+    check_test_public_or_users(test, user)
+
     questions = test.question_set.all()
     questions_dto = list(map(map_question_to_question_dto, questions))
 
@@ -11,7 +14,8 @@ def show_test(test_id, user):
         'name': test.name,
         'description': test.description,
         'createdAt': test.created_at.strftime('%d/%m/%Y %H:%M'),
-        'questions': questions_dto
+        'isPublic': test.is_public,
+        'questions': questions_dto,
     }
 
     test_results_dto = None

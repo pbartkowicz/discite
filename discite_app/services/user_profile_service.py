@@ -24,6 +24,7 @@ def map_to_test_summary(test):
         'id': test.id,
         'name': test.name,
         'description': test.description,
+        'isPublic': test.is_public,
         'questionsNum': test.question_set.count(),
         'createdAt': test.created_at.strftime('%d/%m/%Y %H:%M')
     }
@@ -33,6 +34,7 @@ def map_to_solved_test_summary(test_result):
     return {
         'id': test_result.test.id,
         'name': test_result.test.name,
+        'isPublic': test_result.test.is_public,
         'description': test_result.test.description,
         'correct': test_result.correct,
         'wrong': test_result.wrong,
