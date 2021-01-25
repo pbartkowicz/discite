@@ -97,7 +97,9 @@
         async onSeeResults (): Promise<void> {
             this.testModule.goToFirstQuestion()
 
-            await TestService.submitResults(this.testModule.test.id, this.testModule.testResults)
+            if (!this.testModule.isFromFile) {
+                await TestService.submitResults(this.testModule.test.id, this.testModule.testResults)
+            }
 
             await this.$router.push({
                 name: 'test.results'

@@ -101,6 +101,7 @@
                             })
                         } else {
                             this.testModule.setTest(Test.fromCsvQuestions(results.data))
+                            this.testModule.setIsFromFile(true)
                             this.testModule.setIsLoaded(true)
                             this.$router.push({
                                 name: 'test.solve'

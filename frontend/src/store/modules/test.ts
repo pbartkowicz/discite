@@ -16,7 +16,9 @@ export default class Test extends VuexModule implements TestModuleState {
     checked = false
     revealed = false
 
+    isFromFile = false
     isLoaded = false
+
     test = new TestModel()
     testResults = new TestResults()
 
@@ -25,6 +27,11 @@ export default class Test extends VuexModule implements TestModuleState {
     @Mutation
     setIsLoaded (payload: boolean): void {
         this.isLoaded = payload
+    }
+
+    @Mutation
+    setIsFromFile (payload: boolean): void {
+        this.isFromFile = payload
     }
 
     @Mutation
@@ -83,6 +90,7 @@ export default class Test extends VuexModule implements TestModuleState {
     @Action
     async loadTest (id: number): Promise<void> {
         this.setTest(await TestService.read(id))
+        this.setIsFromFile(false)
         this.setIsLoaded(true)
     }
 

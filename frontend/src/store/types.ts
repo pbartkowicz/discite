@@ -23,6 +23,9 @@ interface TestModuleState {
     checked: boolean
     revealed: boolean
 
+    isFromFile: boolean
+    isLoaded: boolean
+
     test: Test
     testResults: TestResults
 }
