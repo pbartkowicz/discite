@@ -37,7 +37,11 @@ class Test {
         if (testInterface.questionsNum) {
             test.questions = Array.from({ length: testInterface.questionsNum })
         } else {
-            test.questions = []
+            if (testInterface.questions) {
+                test.questions = testInterface.questions.map(q => Question.fromInterface(q))
+            } else {
+                test.questions = []
+            }
         }
 
         return test
