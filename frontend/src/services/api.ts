@@ -19,6 +19,9 @@ export default {
         },
         submitResults (id: number): string {
             return `api/test/${id}/submit`
+        },
+        changePublic (id: number): string {
+            return `api/test/${id}/public`
         }
     },
     user: {

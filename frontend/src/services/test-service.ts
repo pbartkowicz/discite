@@ -31,6 +31,12 @@ class TestService {
         await axios.put(Api.test.submitResults(id), TestService.resultsToRequest(results))
     }
 
+    async changePublic (id: number, isPublic: boolean): Promise<void> {
+        await axios.put(Api.test.changePublic(id), {
+            isPublic: isPublic
+        })
+    }
+
     private static resultsToRequest (results: TestResults): Record<string, unknown> {
         return {
             answers: results.allAnswers

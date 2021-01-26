@@ -8,6 +8,7 @@ interface TestInterface {
     questions: Array<QuestionInterface>
     questionsNum?: number
     createdAt: string
+    isPublic: boolean
 
     correct?: number
     wrong?: number
@@ -20,6 +21,7 @@ class Test {
     description: string = ''
     questions: Array<Question> = []
 
+    isPublic = false
     correct?: number
     wrong?: number
     partially_correct?: number
@@ -41,6 +43,7 @@ class Test {
         test.name = testInterface.name
         test.description = testInterface.description
         test.created_at = testInterface.createdAt
+        test.isPublic = testInterface.isPublic
 
         if (testInterface.questionsNum) {
             test.questions = Array.from({ length: testInterface.questionsNum })

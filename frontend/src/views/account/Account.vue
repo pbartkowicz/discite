@@ -36,7 +36,8 @@
                     <v-tab-item>
                         <my-tests :tests="accountModule.profileData.myTests"
                                   @delete="onDeleteTest"
-                                  @edit="onEditTest" />
+                                  @edit="onEditTest"
+                                  @toggle-public="onTogglePublic" />
                     </v-tab-item>
 
                     <!-- Solved tests -->
@@ -100,6 +101,7 @@
     import { getModule } from 'vuex-module-decorators'
 
     import AccountModule from '@/store/modules/user'
+    import TestModule from '@/store/modules/test'
 
     import AccountInfo from '@/views/account/components/AccountInfo.vue'
     import AchievementList from '@/views/account/components/AchievementList.vue'
@@ -111,6 +113,7 @@
     })
     export default class Account extends Vue {
         accountModule = getModule(AccountModule, this.$store)
+        testModule = getModule(TestModule, this.$store)
         selectedTab = 0
 
         onDeleteTest (id: number): void {
@@ -119,6 +122,11 @@
 
         onEditTest (id: number): void {
             // TODO
+        }
+
+        async onTogglePublic (payload: { id: number, newPublic: boolean }): Promise<void> {
+            await this.testModule.changePublic(payload)
+            await this.accountModule.loadProfile()
         }
 
         async mounted (): Promise<void> {

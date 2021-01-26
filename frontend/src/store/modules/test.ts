@@ -94,6 +94,11 @@ export default class Test extends VuexModule implements TestModuleState {
         this.setIsLoaded(true)
     }
 
+    @Action
+    async changePublic (payload: { id: number, newPublic: boolean }): Promise<void> {
+        await TestService.changePublic(payload.id, payload.newPublic)
+    }
+
     // endregion
 
     // region Getters

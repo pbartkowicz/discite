@@ -8,6 +8,22 @@
                         <v-btn v-bind="attrs"
                                v-on="on"
                                icon
+                               @click="onTogglePublicClick(item)">
+                            <v-icon color="primary"
+                                    small>
+                                {{ item.isPublic ? 'mdi-eye' : 'mdi-eye-off' }}
+                            </v-icon>
+                        </v-btn>
+                    </template>
+
+                    {{ item.isPublic ? 'Make not public' : 'Make public' }}
+                </v-tooltip>
+
+                <v-tooltip bottom>
+                    <template #activator="{ attrs, on }">
+                        <v-btn v-bind="attrs"
+                               v-on="on"
+                               icon
                                :to="{ name: 'test.solve', params: { id: item.id } }">
                             <v-icon color="amber"
                                     small>
@@ -69,6 +85,13 @@
 
         onDeleteEntry (id: number): void {
             this.$emit('delete', id)
+        }
+
+        onTogglePublicClick (item: Test): void {
+            this.$emit('toggle-public', {
+                id: item.id,
+                newPublic: !item.isPublic
+            })
         }
     }
 </script>
